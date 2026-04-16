@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useSyncExternalStore } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -813,33 +813,58 @@ function TopNav({ lang, isDark, onToggleLang, onToggleTheme, t }: {
   );
 }
 
+// ─── localStorage 스토어 (useSyncExternalStore 용) ────────────────────────────
+// SSR snapshot은 서버 기본값을 반환하고, 클라이언트에서는 localStorage를 직접 읽어
+// hydration mismatch 없이 초기값을 동기화합니다.
+
+const langStore = {
+  get: (): Lang => {
+    const s = localStorage.getItem("lang");
+    return s === "en" ? "en" : "ko";
+  },
+  set: (lang: Lang) => {
+    localStorage.setItem("lang", lang);
+    window.dispatchEvent(new Event("lang-update"));
+  },
+  subscribe: (cb: () => void) => {
+    window.addEventListener("lang-update", cb);
+    return () => window.removeEventListener("lang-update", cb);
+  },
+};
+
+const themeStore = {
+  get: (): boolean => {
+    const s = localStorage.getItem("theme");
+    return s === "dark" || (!s && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  },
+  set: (dark: boolean) => {
+    localStorage.setItem("theme", dark ? "dark" : "light");
+    window.dispatchEvent(new Event("theme-update"));
+  },
+  subscribe: (cb: () => void) => {
+    window.addEventListener("theme-update", cb);
+    return () => window.removeEventListener("theme-update", cb);
+  },
+};
+
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 const PROJECT_LINKS = [PROJECT_CODE_LINKS.bomulsen, PROJECT_CODE_LINKS.gopang, PROJECT_CODE_LINKS.nextjs];
 
 export default function Home() {
-  const [lang, setLang] = useState<Lang>(() => {
-    if (typeof window === "undefined") return "ko";
-    const s = localStorage.getItem("lang");
-    return s === "en" ? "en" : "ko";
-  });
-  const [isDark, setIsDark] = useState(() => {
-    if (typeof window === "undefined") return false;
-    const s = localStorage.getItem("theme");
-    return s === "dark" || (!s && window.matchMedia("(prefers-color-scheme: dark)").matches);
-  });
+  // useSyncExternalStore: 서버는 getServerSnapshot(기본값), 클라이언트는 getSnapshot(localStorage) 사용
+  // → SSR/CSR 불일치 없이 hydration 후 자동으로 올바른 값으로 전환됩니다.
+  const lang = useSyncExternalStore(langStore.subscribe, langStore.get, () => "ko" as Lang);
+  const isDark = useSyncExternalStore(themeStore.subscribe, themeStore.get, () => false);
+
+  // isDark 변경 시 <html> 클래스 동기화 (DOM 외부 시스템 업데이트 — setState 없음)
   useEffect(() => { document.documentElement.classList.toggle("dark", isDark); }, [isDark]);
 
   const toggleTheme = () => {
-    const next = !isDark;
-    setIsDark(next);
-    document.documentElement.classList.toggle("dark", next);
-    localStorage.setItem("theme", next ? "dark" : "light");
+    themeStore.set(!isDark);
   };
   const toggleLang = () => {
-    const next: Lang = lang === "ko" ? "en" : "ko";
-    setLang(next);
-    localStorage.setItem("lang", next);
+    langStore.set(lang === "ko" ? "en" : "ko");
   };
 
   const t = T[lang];

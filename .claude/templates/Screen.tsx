@@ -9,6 +9,7 @@
  * 위치: `app/<route-segment>/page.tsx`
  */
 
+import React from 'react'
 import type { Metadata } from 'next'
 // import { SCREEN_NAMEViewModel } from '@/lib/viewmodels/SCREEN_NAMEViewModel'
 
@@ -42,9 +43,6 @@ export default async function SCREEN_NAMEPage({
   params,
   searchParams,
 }: SCREEN_NAMEPageProps) {
-  const data = await getData()
-  const resolvedParams = await params
-  const resolvedSearchParams = await searchParams
 
   return (
     <main className="min-h-screen bg-gray-50">
