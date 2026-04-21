@@ -238,7 +238,7 @@ export const T: Record<Lang, Translation> = {
               layout: "scroll",
               items: [
                 {
-                  src: "/experience/bomulsen/event_01.mov",
+                  src: "/experience/bomulsen/event_01.mp4",
                   alt: "월간 이벤트 WebView 인터랙션 영상 01",
                   video: true,
                   poster: "/experience/bomulsen/event_01.png",
@@ -252,7 +252,7 @@ export const T: Record<Lang, Translation> = {
                   alt: "월간 이벤트 화면 03",
                 },
                 {
-                  src: "/experience/bomulsen/event_04.mov",
+                  src: "/experience/bomulsen/event_04.mp4",
                   alt: "월간 이벤트 WebView 인터랙션 영상 02",
                   video: true,
                 },
@@ -626,7 +626,7 @@ export const T: Record<Lang, Translation> = {
               layout: "scroll",
               items: [
                 {
-                  src: "/experience/bomulsen/event_01.mov",
+                  src: "/experience/bomulsen/event_01.mp4",
                   alt: "Monthly event WebView interaction 01",
                   video: true,
                   poster: "/experience/bomulsen/event_01.png",
@@ -640,7 +640,7 @@ export const T: Record<Lang, Translation> = {
                   alt: "Monthly event screen 03",
                 },
                 {
-                  src: "/experience/bomulsen/event_04.mov",
+                  src: "/experience/bomulsen/event_04.mp4",
                   alt: "Monthly event WebView interaction 02",
                   video: true,
                 },
