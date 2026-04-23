@@ -86,6 +86,8 @@ export type PriorCareer = {
 export type ExperienceData = {
   company: string;
   position: string;
+  /** 회사에 대한 한두 줄 맥락 설명 (업태 · 운영 서비스 등). 채용 담당자가 회사를 모를 때 배경 제공용. */
+  companyDesc?: string;
   period: string;
   description: string;
   projects: Project[];
@@ -198,6 +200,8 @@ export type Translation = {
   portfolioDesc: string;
   contactLabel: string;
   contact: ContactContent;
+  /** 맨 아래 footer 에 들어가는 meta 시그널 (이 포트폴리오가 어떻게 빌드됐는지). */
+  colophon: string;
   statsLabels: { cicd: string; branches: string };
   cicdValue: string;
   branchesValue: string;

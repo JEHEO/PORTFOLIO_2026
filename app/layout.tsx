@@ -28,10 +28,34 @@ const instrumentSerif = Instrument_Serif({
   style: ["normal", "italic"],
 });
 
+/**
+ * 사이트 공통 메타데이터.
+ * - title / description 은 검색 · OG · Twitter 카드 에서 공통 사용됩니다.
+ * - `metadataBase` 는 OG/Twitter 이미지 경로를 절대 URL 로 풀 때 쓰입니다.
+ *   GitHub Pages 배포 URL 에 맞춰 설정.
+ * - 파비콘/OG 이미지는 `app/icon.*` · `app/opengraph-image.*` 규약 파일로
+ *   자동 인식되므로 여기서 별도 설정할 필요 없음.
+ */
+const SITE_TITLE = "허정은 — Frontend Developer Portfolio";
+const SITE_DESC =
+  "디자이너 출신 프론트엔드 리더. 감각과 구현력을 함께 만들어내는 프론트엔드 — 허정은의 포트폴리오.";
+
 export const metadata: Metadata = {
-  title: "허정은 — Frontend Developer Portfolio",
-  description:
-    "근성 있는 디자인 전공 프론트엔드 리더 허정은의 포트폴리오입니다.",
+  metadataBase: new URL("https://jeheo.github.io/PORTFOLIO_2026"),
+  title: SITE_TITLE,
+  description: SITE_DESC,
+  openGraph: {
+    title: SITE_TITLE,
+    description: SITE_DESC,
+    type: "website",
+    locale: "ko_KR",
+    siteName: "허정은 Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESC,
+  },
 };
 
 /**

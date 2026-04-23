@@ -257,22 +257,35 @@ export function ExperienceSection({
         </div>
       )}
 
-      {/* 회사 요약 — 카드 없이 섹션 인트로로. 바로 아래 프로젝트들이 "여기서 진행한 일" 로 자연스럽게 이어짐 */}
+      {/* 회사 요약 — 두 블록 구조:
+          (1) 회사 블록: 이름 + 한 줄 회사 설명 + 재직 기간
+          (2) 역할 블록: 내 직급 + 내 업무 설명
+          '회사 → 내 역할' 논리 순서로 읽히도록 분리. */}
       <div className="mb-10">
+        {/* (1) 회사 블록 */}
         <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <div>
-            <h3 className="text-lg font-bold text-zinc-900 dark:text-white">
-              {t.experience.company}
-            </h3>
-            <p className="text-sm text-zinc-500">{t.experience.position}</p>
-          </div>
+          <h3 className="text-lg font-bold text-zinc-900 dark:text-white">
+            {t.experience.company}
+          </h3>
           <span className="text-xs font-medium text-zinc-400">
             {t.experience.period}
           </span>
         </div>
-        <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-          {t.experience.description}
-        </p>
+        {t.experience.companyDesc && (
+          <p className="mt-2 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+            {t.experience.companyDesc}
+          </p>
+        )}
+
+        {/* (2) 역할 블록 */}
+        <div className="mt-5">
+          <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+            {t.experience.position}
+          </p>
+          <p className="mt-1.5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            {t.experience.description}
+          </p>
+        </div>
       </div>
 
       {/* 프로젝트 리스트 */}

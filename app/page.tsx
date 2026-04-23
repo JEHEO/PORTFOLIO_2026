@@ -5,10 +5,9 @@
  *
  * - 상세 구현은 `components/sections/` 하위 파일로 분리되어 있습니다.
  *   이 파일의 책임은 "언어/테마 상태 구독 + 섹션 순서 결정" 뿐입니다.
- * - 섹션 순서: About → Impact → Expertise → Experience → Education
- *   → Certifications → Code Showcase → Skills → GitHub Stats
- *   → 2020 Portfolio → Contact
- *   "누구인가" · "무엇을 만들었나" 를 먼저 노출하고, 근거 자료(Stats)를 후반부에 둡니다.
+ * - 섹션 순서: About → Impact → Expertise → Experience → Code Showcase
+ *   → Education → Certifications → Skills → 2020 Portfolio → Contact
+ *   "누구인가 → 무엇을 했나 → 어떻게 구현했나 → 정규 자격 → 스킬" 흐름.
  */
 
 import React from "react";
@@ -17,6 +16,7 @@ import { TopNav } from "@/components/layout/TopNav";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { CertificationsSection } from "@/components/sections/CertificationsSection";
 import { CodeShowcaseSection } from "@/components/sections/CodeShowcaseSection";
+import { ColophonFooter } from "@/components/sections/ColophonFooter";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { EducationSection } from "@/components/sections/EducationSection";
 import { ExperienceSection } from "@/components/sections/ExperienceSection";
@@ -60,12 +60,13 @@ export default function Home() {
         <ImpactStrip t={t} />
         <HighlightsSection t={t} />
         <ExperienceSection t={t} lang={lang} />
+        <CodeShowcaseSection t={t} lang={lang} />
         <EducationSection t={t} />
         <CertificationsSection t={t} />
-        <CodeShowcaseSection t={t} lang={lang} />
         <SkillsSection t={t} />
         <LegacyPortfolioSection t={t} />
         <ContactSection t={t} />
+        <ColophonFooter t={t} />
       </main>
     </div>
   );
