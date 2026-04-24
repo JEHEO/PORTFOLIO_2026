@@ -1,8 +1,8 @@
 /**
  * Expertise & Leadership 상세 페이지 데이터.
  *
- * - 홈의 카드 미리보기(title · description · tags) 는 `app/page.tsx` 의 번역본 `T.highlights`
- *   를 사용하고, 본 모듈은 각 카드의 **상세 페이지** 에 필요한 전체 콘텐츠를 제공합니다.
+ * - 홈의 카드 미리보기(title · description · tags)는 `app/page.tsx` 의 번역본 `T.highlights`
+ *   를 사용하고, 본 모듈은 각 카드의 상세 페이지에 필요한 전체 콘텐츠를 제공합니다.
  * - `slug` 는 `/highlights/[slug]` 라우트 세그먼트에 그대로 대응됩니다.
  */
 
@@ -38,41 +38,41 @@ export const HIGHLIGHTS: Highlight[] = [
       title: "React Native 0.76 업그레이드 트러블슈팅",
       meta: "2025 · 약 4주 · Bomulsen (React Native · Hermes)",
       summary:
-        "Google Play 16KB 페이지 정책 대응을 위해 RN 0.70 → 0.76 마이그레이션을 주도했고, 13.7만 활성 사용자 서비스를 무중단으로 롤아웃했습니다.",
+        "Google Play 의 새 16KB 정책에 맞추기 위해 React Native 를 0.70 에서 0.76 으로 업그레이드했습니다. 13.7만 명이 매일 쓰는 서비스를 멈춤 없이 롤아웃한 프로젝트입니다.",
       sections: [
         {
-          heading: "배경 (Context)",
-          body: "2025년 하반기부터 Google Play 는 신규 업로드 앱에 16KB 페이지 정렬을 요구했습니다. 보물선은 네이티브 의존성이 많은 RN 0.70 기반 서비스였고, 13.7만 명의 활성 유저를 보유하고 있어 '정책 통과' 와 '서비스 안정성' 을 동시에 달성해야 했습니다.",
+          heading: "배경",
+          body: "2025년 하반기부터 Google Play 는 새로 올라오는 앱에 '16KB 페이지 정렬' 이라는 조건을 요구하기 시작했습니다. 정책을 통과하지 못하면 앱을 더 이상 업데이트할 수 없어 대응이 시급했어요. 보물선은 네이티브 라이브러리를 많이 쓰는 RN 0.70 기반이었고 매일 13.7만 명이 사용 중이었기 때문에, 정책 통과뿐 아니라 기존 유저의 서비스 안정성까지 함께 지켜야 하는 상황이었습니다.",
         },
         {
-          heading: "문제 정의 (Problem)",
+          heading: "문제 정의",
           body: [
-            "서드파티 라이브러리 호환성 이슈 — RN 버전과 맞지 않아 빌드/런타임 에러를 내는 항목 대응",
-            "RN 0.71 → 0.76 사이 Gradle · Xcode 빌드 설정 변경 누적 대응",
-            "상단 status bar · 하단 home indicator 영역까지 콘텐츠가 채워져 안전 영역(safe area) 이 침범되는 회귀 이슈",
-            "iOS 에서 한 Modal 이 닫히자마자 다음 Modal 을 열면 두 번째 팝업이 렌더되지 않는 스태킹 타이밍 경합",
+            "기존에 쓰던 서드파티 라이브러리 일부가 새 RN 버전과 맞지 않아 빌드 또는 실행 중에 에러가 났음",
+            "RN 0.71부터 0.76까지 쌓여 있는 Gradle · Xcode 빌드 설정 변경을 한 번에 흡수해야 했음",
+            "상단 상태바·하단 홈 인디케이터 영역까지 콘텐츠가 넘쳐서 안전 영역(safe area) 이 깨지는 회귀 버그 발생",
+            "iOS 에서 팝업을 닫자마자 다음 팝업을 열면, 두 번째 팝업이 렌더되지 않는 타이밍 문제",
           ],
         },
         {
-          heading: "접근 (Approach)",
+          heading: "접근",
           body: [
-            "RN Upgrade Helper 를 기준으로 0.70 → 0.76 구간을 단계별 diff 로 분해, 파일 단위로 체크리스트화",
-            "호환되지 않는 라이브러리는 patch-package 로 임시 패치 후 업스트림에 이슈 리포트",
-            "스테이징 환경에서 핵심 유저 플로우(로그인 · 결제 · 박스 오픈) 회귀 테스트 후 단계적 롤아웃",
-            "안전 영역 이슈 — `react-native-safe-area-context` 의 `useSafeAreaInsets` 로 상단·하단 inset 값을 측정해 루트 화면에 일관 적용, status bar · home indicator 영역 겹침 제거",
-            "iOS 팝업 연속 오픈 이슈 — 이전 Modal 의 `onDismiss` 콜백 안에서 다음 Modal 을 열도록 오케스트레이션해 스태킹 타이밍 경합 해소",
+            "RN Upgrade Helper 도구로 0.70 → 0.76 구간을 작은 버전 단위로 쪼개, 파일별 변경 체크리스트를 만들어 순차 적용",
+            "호환 안 되는 라이브러리는 patch-package 로 임시 수정해 당장 돌아가게 하고, 라이브러리 저장소에 이슈를 등록해 정식 수정을 요청",
+            "본 배포 전 스테이징 환경에서 로그인 · 결제 · 박스 오픈 같은 핵심 흐름을 회귀 테스트한 뒤 단계적으로 유저에게 롤아웃",
+            "안전 영역 문제는 react-native-safe-area-context 의 useSafeAreaInsets 훅으로 상단/하단 여백 값을 받아, 모든 화면에 일관되게 적용해 해결",
+            "iOS 팝업 문제는 이전 팝업의 onDismiss 콜백 안에서 다음 팝업을 열도록 순서를 바꿔, 타이밍 경합을 원천 차단",
           ],
         },
         {
-          heading: "결과 (Result)",
+          heading: "결과",
           body: [
-            "Play Store 16KB ELF alignment 정책 통과 · 정식 업로드 성공",
-            "크래시율 무변화 상태로 100% 유저 롤아웃 완료",
+            "Play Store 16KB ELF alignment 정책 통과 — 앱 정식 재업로드 성공",
+            "크래시율이 기존과 동일하게 유지되며 전체 유저 롤아웃 완료",
           ],
         },
         {
-          heading: "회고 (Takeaway)",
-          body: "메이저 버전업은 소스 diff 보다 '빌드 시스템 변화' 에서 실제 공수가 발생한다는 걸 체감했습니다. 이후부터는 RN 코어뿐 아니라 Android · iOS SDK 업데이트 사이클도 분기별로 함께 관리하도록 팀 프로세스를 보강했습니다.",
+          heading: "회고",
+          body: "메이저 버전업은 코드 자체의 변경보다 Gradle · Xcode 같은 빌드 시스템의 변화에서 실제 공수가 훨씬 크다는 걸 몸으로 배웠습니다. 이후로는 팀 프로세스에 RN 코어 업데이트뿐 아니라 Android · iOS SDK 업데이트 사이클까지 분기마다 함께 챙기는 루틴을 넣었어요.",
         },
       ],
     },
@@ -128,56 +128,56 @@ export const HIGHLIGHTS: Highlight[] = [
       title: "팀 프로세스 & 자동화",
       meta: "2023 – 2026 · 지속 개선 · 팀 규모 3명",
       summary:
-        "Atomic Design · 코드 리뷰 프로세스를 팀에 정착시키고, Claude Code 기반 AI 페어 프로그래밍을 워크플로우에 통합해 사람 + 에이전트가 함께 컨벤션 · 셀프 리뷰 · 린트/타입 체크를 자동으로 수행하도록 설계했습니다.",
+        "팀에 Atomic Design 과 코드 리뷰 프로세스를 정착시키고, Claude Code 기반 AI 페어 프로그래밍을 워크플로우에 통합했습니다. 컨벤션 준수 · 셀프 리뷰 · 린트 · 타입 체크를 사람과 에이전트가 함께 자동으로 처리하는 구조를 만들었어요.",
       sections: [
         {
-          heading: "배경 (Context)",
-          body: "빠른 성장기에 신규 팀원 온보딩과 레거시 유지보수가 동시에 진행되며 코드 스타일이 일관성을 잃기 시작했고, 이후 Next.js 16 신규 프로젝트로 진입하며 비교적 새로운 스택에서 컨벤션을 빠르게 안착시켜야 했습니다. '사람이 꼭 봐야 할 것' 과 '자동화가 대신할 수 있는 것' 을 명확히 분리하는 것이 목표였습니다.",
+          heading: "배경",
+          body: "팀이 빠르게 성장하는 동안 신규 입사자 온보딩과 레거시 유지보수가 동시에 진행되다 보니 코드 스타일의 일관성이 조금씩 무너지기 시작했어요. 얼마 뒤에는 Next.js 16 이라는 비교적 새로운 스택으로 신규 프로젝트를 시작하게 되면서 컨벤션을 빠르게 안착시켜야 했습니다. '사람이 직접 봐야 할 것' 과 '자동화에 맡겨도 되는 것' 을 또렷하게 나누는 것이 목표였어요.",
         },
         {
-          heading: "문제 정의 (Problem)",
+          heading: "문제 정의",
           body: [
-            "컴포넌트 분리 기준이 개발자마다 달라 재사용성이 떨어짐",
-            "스타일 · 상태 관리 · 폴더 구조 일관성 부족",
-            "코드 리뷰가 '의미' 보다 '형식' 에 집중됨",
-            "컨벤션 문서가 있어도 신규 파일 작성 시 일관되게 지켜지지 않음",
-            "린트 · 타입 체크를 빌드 이전 단계에서 반복적으로 수동 실행",
-            "신규 팀원 온보딩 초반 1 – 2주 생산성 저하",
+            "컴포넌트를 어떻게 나눌지 기준이 개발자마다 달라서 재사용성이 떨어짐",
+            "스타일 · 상태 관리 · 폴더 구조의 일관성이 부족했음",
+            "코드 리뷰가 '의미 있는 논의' 보다 '형식 지적' 에 치우침",
+            "컨벤션 문서가 있어도 새 파일을 만들 때 실제로는 잘 지켜지지 않음",
+            "린트와 타입 체크를 빌드 전에 매번 수동으로 돌리고 있었음",
+            "신규 입사자의 초기 1~2주 생산성이 눈에 띄게 낮았음",
           ],
         },
         {
-          heading: "접근 (Approach) · 사람 레이어",
+          heading: "접근 · 사람 레이어",
           body: [
-            "Atomic Design 5계층 구조 (Atoms / Molecules / Organisms / Templates / Pages) 도입 — 분리 기준을 문서로 명문화",
-            "ESLint · Prettier · simple-import-sort · tailwindcss plugin 표준화로 포맷 논쟁을 린터에 위임",
-            "Storybook 으로 Atom · Molecule 단위 격리 개발 — 사이드 이펙트 없이 UI 변경",
-            "PR 템플릿에 접근성 · 반응형 · 성능 체크리스트 삽입 — 작성자와 리뷰어가 같은 기준 사용",
-            "격주 코드 리뷰 회고로 규칙 자체를 팀이 함께 개선",
+            "Atomic Design 5계층 구조(Atoms / Molecules / Organisms / Templates / Pages) 를 도입하고 분리 기준을 문서로 정리",
+            "ESLint · Prettier · simple-import-sort · tailwindcss plugin 을 표준으로 묶어, 포맷 논쟁은 린터에 맡김",
+            "Storybook 으로 Atom · Molecule 단위를 격리 개발 — 다른 화면에 영향 없이 UI 만 따로 바꿀 수 있게",
+            "PR 템플릿에 접근성 · 반응형 · 성능 체크리스트를 넣어 작성자와 리뷰어가 같은 기준으로 봄",
+            "격주로 코드 리뷰 회고를 돌려 규칙 자체를 팀이 함께 다듬도록",
           ],
         },
         {
-          heading: "접근 (Approach) · 자동화 레이어",
+          heading: "접근 · 자동화 레이어",
           body: [
-            "CLAUDE.md 에 기술 스택 · 패키지 구조 · 네이밍 · 커밋 컨벤션 · 워크플로우 4단계를 집약 — 에이전트가 항상 동일한 컨텍스트로 작동",
-            ".claude/commands/ 에 `/review` (리뷰 기준 자동 적용) · `/lint-check` (ESLint + tsc 일괄 실행) 등 커스텀 커맨드 정의",
-            ".claude/templates/ 에 Component · Hook · Screen · ViewModel · RouteHandler 5종 템플릿을 관리 — 신규 파일 생성 시 컨벤션 자동 준수",
-            "표준 워크플로우 정립: 코드 작성 → /review → /lint-check → 빌드 검증 (중요 변경시)",
-            "문서 · 정적 파일 변경 같은 예외는 문서에 명시해 에이전트가 과도하게 개입하지 않도록 가드레일 설정",
+            "CLAUDE.md 한 파일에 기술 스택 · 패키지 구조 · 네이밍 · 커밋 컨벤션 · 워크플로우 4단계를 담아, 에이전트가 항상 같은 맥락으로 작동하도록 구성",
+            ".claude/commands/ 에 /review (리뷰 기준 자동 적용), /lint-check (ESLint + tsc 일괄 실행) 같은 커스텀 커맨드 정의",
+            ".claude/templates/ 에 Component · Hook · Screen · ViewModel · RouteHandler 5종 템플릿 관리 — 새 파일이 자동으로 컨벤션을 따르게",
+            "표준 워크플로우: 코드 작성 → /review → /lint-check → 중요 변경 시 빌드 검증",
+            "문서나 정적 파일만 바꾸는 경우처럼 자동화가 과도하게 개입하면 안 되는 예외는 문서에 명시해 가드레일 설정",
           ],
         },
         {
-          heading: "결과 (Result)",
+          heading: "결과",
           body: [
-            "리뷰 사이클 평균 시간 체감상 약 30% 단축 (팀 내 자체 평가)",
-            "신규 팀원 첫 PR 머지까지 기간 단축 · 중복 컴포넌트 감소",
-            "리뷰 단계 '스타일' 지적 감소 — 본질적 설계 논의에 집중",
-            "린트 에러로 인한 빌드 실패 사전 차단",
-            "본 포트폴리오 자체도 동일 워크플로우로 유지 — 프로세스를 스스로 증명",
+            "리뷰 사이클 평균 시간이 체감상 약 30% 단축 (팀 내 자체 평가)",
+            "신규 입사자가 첫 PR 을 머지하기까지의 기간이 줄고, 중복 컴포넌트도 감소",
+            "리뷰 단계에서 '스타일 지적' 이 줄어 본질적인 설계 논의에 시간을 쓸 수 있게 됨",
+            "린트 에러로 인한 빌드 실패를 사전에 차단",
+            "이 포트폴리오 자체도 같은 워크플로우로 유지 중 — 프로세스를 스스로 증명",
           ],
         },
         {
-          heading: "회고 (Takeaway)",
-          body: "컨벤션은 '문서' 가 아니라 '사람의 합의 + 자동화 + 팀 문화' 세 축이 함께 작동할 때 유지됩니다. 린터로 막을 수 있는 것은 린터에, 에이전트가 강제할 수 있는 것은 에이전트에, 사람이 꼭 판단해야 할 부분만 리뷰에 남기는 구조가 장기적으로 지속 가능했습니다. 에이전트는 '더 빠른 개발자' 가 아니라 '컨벤션을 자동으로 강제하는 장치' 로 쓰는 쪽이 실질 ROI 가 높았습니다.",
+          heading: "회고",
+          body: "컨벤션은 '문서' 만으로는 유지되지 않고, 사람의 합의 · 자동화 · 팀 문화 세 축이 함께 돌아갈 때만 살아남는다는 걸 배웠습니다. 린터로 막을 수 있는 건 린터에, 에이전트가 강제할 수 있는 건 에이전트에, 사람이 꼭 판단해야 할 것만 리뷰에 남기는 구조가 장기적으로 지속 가능했어요. 에이전트를 '더 빠른 개발자' 가 아니라 '컨벤션을 자동으로 지켜주는 장치' 로 쓰는 쪽이 실질 ROI 가 훨씬 높았습니다.",
         },
       ],
     },
@@ -185,7 +185,7 @@ export const HIGHLIGHTS: Highlight[] = [
       title: "Team Process & Automation",
       meta: "2023 – 2026 · Continuous improvement · Team of 3",
       summary:
-        "Formalized Atomic Design and code review processes, and integrated Claude Code-based AI pair programming into the team workflow — so conventions, self-reviews, and lint / type checks are performed automatically by human + agent together.",
+        "Formalized Atomic Design and code review processes, and integrated Claude Code-based AI pair programming into the team workflow — so conventions, self-reviews, and lint / type checks run automatically by human + agent together.",
       sections: [
         {
           heading: "Context",
@@ -248,46 +248,46 @@ export const HIGHLIGHTS: Highlight[] = [
       title: "보물함 화면 — 복합 상태 리스트 설계",
       meta: "2024 · Bomulsen (React Native · FlatList)",
       summary:
-        "탭·검색·필터·정렬·잠금 토글이 동시에 작동하는 단일 화면에서, 11종 상태코드 × 2종 타입코드 × 잠금 여부가 교차하는 버튼 매트릭스와 6종 모달을 하나의 패턴으로 정리했습니다.",
+        "탭 · 검색 · 필터 · 정렬 · 잠금 토글이 동시에 돌아가는 한 화면 안에서, 11종 상태코드 × 2종 타입코드 × 잠금 여부가 교차하는 버튼 상태와 6종 모달을 하나의 일관된 패턴으로 정리한 프로젝트입니다.",
       sections: [
         {
-          heading: "배경 (Context)",
-          body: "보물선은 유저가 랜덤박스에서 획득한 보물을 보관 · 배송요청 · 거래소 출품 · 분해 · 판매중단 상품 포인트 환급까지 수행하는 서비스입니다. 이 모든 생애주기가 '내 보물함' 단일 화면에 모이기 때문에, 상태코드(00·01·02·03·40·41·43·45·70·-100·-200) × 타입코드(일반/쿠칩 기프티콘) × 잠금 여부가 교차하는 복합 UI를 설계해야 했습니다.",
+          heading: "배경",
+          body: "보물선은 사용자가 랜덤박스에서 얻은 보물을 보관 · 배송 요청 · 거래소 출품 · 분해 · 판매중단 상품 포인트 환급까지 처리하는 서비스입니다. 이 모든 과정이 '내 보물함' 이라는 한 화면에 모이다 보니, 상태코드(00·01·02·03·40·41·43·45·70·-100·-200) × 타입코드(일반 / 쿠칩 기프티콘) × 잠금 여부가 복잡하게 교차하는 UI를 설계해야 했습니다.",
         },
         {
-          heading: "문제 정의 (Problem)",
+          heading: "문제 정의",
           body: [
-            "6개 탭 × 4종 정렬 × 검색어 × 카테고리 필터 × 잠금 토글이 동시에 유지되면서도 페이지네이션이 깨지지 않아야 함",
-            "배송 · 거래 · 분해 · 환급 4개 액션의 활성/비활성/텍스트/이동 경로가 아이템 상태마다 달라짐",
-            "서로 다른 6종 모달(이미지 알림 · 확인 · 단순 알림 · 환급 완료 · 필터 · 일반 알림)이 하나의 화면에서 간섭 없이 동작",
-            "쿠칩 기프티콘 발송 제한 · 판매중단 상품 포인트 환급 등 서버 도메인 규칙이 UI 액션에 직접 반영됨",
-            "수백 개 아이템 무한스크롤에서 스크롤 저하 · 재렌더 비용 관리",
-            "푸시 · 알림센터에서 이 화면으로 딥링크 진입 시 배송 상세 페이지로 자동 이동 필요",
+            "6개 탭 · 4종 정렬 · 검색어 · 카테고리 필터 · 잠금 토글이 동시에 작동하는 와중에도 무한스크롤 페이지네이션이 깨지면 안 됨",
+            "배송 · 거래 · 분해 · 환급 4개 액션의 활성 여부 · 버튼 문구 · 이동 경로가 아이템 상태마다 다름",
+            "6종 모달(이미지 알림 · 확인 · 단순 알림 · 환급 완료 · 필터 · 일반 알림)이 한 화면에서 서로 간섭 없이 동작해야 함",
+            "쿠칩 기프티콘 발송 제한, 판매중단 상품 포인트 환급 등 서버 쪽 도메인 규칙이 UI 에서 즉시 반영돼야 함",
+            "아이템이 수백 개가 쌓여도 스크롤이 부드럽게 유지되어야 함",
+            "푸시나 알림센터에서 딥링크로 들어오면 자동으로 배송 상세 페이지로 이동시켜야 함",
           ],
         },
         {
-          heading: "접근 (Approach)",
+          heading: "접근",
           body: [
-            "탭 × 검색 × 필터 × 정렬 × 잠금을 단일 fetch 쿼리 파라미터로 수렴하고, 상태 리셋은 listResetAction 한 곳에서만 일어나도록 정리 — '리스트가 지금 어떤 조건으로 그려지는가' 를 코드 한 곳에서 읽을 수 있게 함",
-            "state_code × type_code × lock_yn 조합을 아이템 단위 버튼 매트릭스로 선언형 분기 — 배송요청/상세정보/발송요청, 거래하기/거래취소, 분해하기 활성 여부와 텍스트가 데이터만 보면 결정됨",
-            "6종 모달을 공통 goEvent 콜백 패턴으로 통일 — 거래취소 · 포인트 환급처럼 위험한 액션도 '확인 → 실행 → 결과 피드백 → 리스트 리셋' 흐름으로 수렴",
-            "쿠칩 발송 전 서버 제한 엔드포인트(couchipSendPriceLimitCheck) 사전 호출, 판매중단 기프티콘은 display_price 1,000원 단위 올림 포인트로 환급 — 도메인 규칙을 UI 레이어에서 안전하게 처리",
-            "useCallback(renderItem) · React.memo(LockBtn) · FastImage · 페이지 끝 도달 시 stop-fetching 가드 · pull-to-refresh 조합으로 대량 아이템에서의 스크롤 성능 유지",
-            "푸시 · 알림센터 진입을 route.params.params 기반 자동 내비게이션으로 처리하고, Android 물리 백버튼은 useFocusEffect + BackHandler 로 가로채 홈으로 리셋",
+            "탭 · 검색 · 필터 · 정렬 · 잠금 값을 한 개의 fetch 쿼리 파라미터로 모으고, 리스트 상태 리셋은 listResetAction 한 곳에서만 일어나도록 정리 — '지금 리스트가 어떤 조건으로 그려지는지' 를 코드 한 지점에서 읽을 수 있게 함",
+            "state_code × type_code × lock_yn 의 모든 조합을 아이템 단위 버튼 매트릭스로 선언형으로 분기 — 배송 요청 / 거래 / 분해 등의 활성 여부와 버튼 문구가 데이터만 보면 결정되도록",
+            "6종 모달을 공통 goEvent 콜백 패턴으로 묶어, 거래 취소 · 포인트 환급처럼 되돌릴 수 없는 액션도 '확인 → 실행 → 피드백 → 리스트 리셋' 순서로 동일하게 흐르게 함",
+            "쿠칩 발송 전 서버 제한 API 를 먼저 호출하고, 판매중단 기프티콘은 1,000원 단위 올림 포인트로 환급하는 등 도메인 규칙을 UI 레이어에서 안전하게 처리",
+            "useCallback(renderItem) · React.memo(LockBtn) · FastImage · 페이지 끝에서 fetch 중단 가드 · pull-to-refresh 를 조합해 수백 개 아이템에서도 스크롤 성능 유지",
+            "푸시와 알림센터 진입은 route.params 기반 자동 내비게이션으로 처리하고, 안드로이드 물리 뒤로가기 버튼은 useFocusEffect + BackHandler 로 가로채 홈으로 리셋",
           ],
         },
         {
-          heading: "결과 (Result)",
+          heading: "결과",
           body: [
-            "하나의 화면에서 보물 생애주기 전 구간(보관 → 배송 → 거래 → 분해 → 환급)을 관리할 수 있게 됨",
-            "버튼 · 모달 매트릭스를 코드 한 곳에 모아 신규 상태코드 추가 시 변경 지점을 최소화",
-            "모달 오케스트레이션 · 리스트 파라미터 수렴 패턴을 거래소 · 구매 내역 등 다른 복합 리스트 화면에 재사용",
-            "잠금 토글 · 포인트 환급 같은 되돌릴 수 없는 액션에서 '확인 모달 누락' 같은 사용자 실수 경로를 제거",
+            "한 화면에서 보물의 전체 생애주기(보관 → 배송 → 거래 → 분해 → 환급) 를 모두 관리할 수 있게 됨",
+            "버튼과 모달 매트릭스를 코드 한 곳에 모아둔 덕분에, 새 상태코드가 추가돼도 고쳐야 할 지점이 최소화",
+            "모달 오케스트레이션과 리스트 파라미터 수렴 패턴을 거래소 · 구매 내역 같은 다른 복합 리스트 화면에 그대로 재사용",
+            "잠금 토글이나 포인트 환급처럼 되돌릴 수 없는 액션에서 '확인 모달 누락' 같은 사용자 실수 경로를 원천 차단",
           ],
         },
         {
-          heading: "회고 (Takeaway)",
-          body: "복합 상태 UI는 UI 를 그리기 전에 '데이터 흐름과 버튼 매트릭스' 를 먼저 설계하는 편이 디버깅 공수를 크게 줄였습니다. 특히 '버튼이 언제 활성화되는가' 를 단일 매트릭스로 정리하니 QA 사이클도 짧아졌고, 이후 거래소 · 구매 내역처럼 상태가 많은 화면을 만들 때 그대로 재사용할 수 있는 템플릿이 되었습니다.",
+          heading: "회고",
+          body: "상태가 많은 UI 는 화면을 그리기 전에 '데이터 흐름과 버튼 매트릭스' 를 먼저 설계해두는 편이 디버깅 비용을 크게 줄여준다는 걸 배웠습니다. 특히 '이 버튼이 어떤 조건에서 활성화되는가' 를 하나의 표로 정리하니 QA 사이클도 눈에 띄게 짧아졌고, 이후 거래소나 구매 내역처럼 상태가 많은 화면을 만들 때 그대로 가져다 쓸 수 있는 템플릿이 되어주었습니다.",
         },
       ],
     },
@@ -348,43 +348,35 @@ export const HIGHLIGHTS: Highlight[] = [
       title: "디자인-엔지니어링 크로스 스킬",
       meta: "2012 – 현재 · 시각디자인 전공 → 편집 디자이너 6년 → 프론트엔드 리드",
       summary:
-        "시각디자인 전공 후 편집 디자이너로 약 6년간 현장 경험을 쌓은 뒤, 웹디자인기능사 · SQL 개발자 · 정보처리기사 · 컴퓨터공학 학사까지 의도적인 엔지니어링 전환 경로를 밟았고, 지금은 디자인 시스템 · Figma 프로토타입 · 1인 UI/UX 담당까지 수행하는 프론트엔드 개발자로 일하고 있습니다.",
+        "시각디자인 전공 후 편집 디자이너로 약 6년간 현장 경험을 쌓은 뒤, 웹디자인기능사 · SQL 개발자 · 정보처리기사 · 컴퓨터공학 학사까지 의도적으로 엔지니어링 전환 경로를 밟았습니다. 지금은 디자인 시스템 · Figma 프로토타입 · 1인 UI/UX 담당까지 수행하는 프론트엔드 개발자로 일하고 있어요.",
       sections: [
         {
-          heading: "배경 (Context)",
-          body: "2014년 충청대학 시각디자인 전공을 졸업한 뒤 편집 디자이너로 약 6년간(2014.09 – 2020.05) 현장 경험을 쌓았습니다. 이 시기에 웹 퍼블리싱으로 접점을 옮기면서 '디자인을 구현하는 쪽' 의 언어가 더 잘 맞는다고 느꼈고, 이후 웹디자인기능사(2020) → SQL 개발자(2023) → 정보처리기사(2024) → 학점은행제 컴퓨터공학 학사(2024) 순서로, 취미 전환이 아닌 '정식 자격 · 학위로 프론트엔드 엔지니어 포지션을 증명' 하는 경로를 선택했습니다.",
+          heading: "배경",
+          body: "2014년 충청대학 시각디자인 전공을 졸업한 뒤 2014.09 부터 2020.05 까지 약 6년간 편집 디자이너로 현장 경험을 쌓았습니다. 이 시기에 웹 퍼블리싱 쪽으로 접점이 옮겨지면서 '디자인을 직접 구현하는 쪽' 의 언어가 더 잘 맞는다고 느꼈어요. 그 뒤로 웹디자인기능사(2020) → SQL 개발자(2023) → 정보처리기사(2024) → 학점은행제 컴퓨터공학 학사(2024) 순으로, 취미 전환이 아니라 정식 자격과 학위로 프론트엔드 엔지니어 정체성을 증명하는 경로를 택했습니다.",
         },
         {
-          heading: "실무에서 어떻게 작용하는가 (How it shows up in my work)",
+          heading: "접근",
           body: [
             "디자이너·기획자 미팅에서 '구현 가능성' 과 'UX 의도' 를 동시에 번역 — 시안 리뷰 단계에서 인터랙션 · 상태 변화 · 엣지 케이스까지 같이 정의",
-            "디자인 시스템·토큰·컴포넌트 분리 기준을 함께 설계 — 구현 시점이 아니라 설계 시점에 Atomic Design 경계를 그음",
-            "GOPANG — 인도네시아향 React 웹앱 전체를 디자인 · 퍼블리싱 · 구현 모두 1인으로 엔드투엔드 구축 (관리자 페이지 포함)",
-            "Figma 프로토타입 · 상호작용 스펙을 스스로 작성해 개발자/디자이너 간 핑퐁 횟수 감소",
-            "타이포그래피·여백·컬러 팔레트에 대한 기준을 코드 레벨(Tailwind 토큰, CSS 변수) 로 변환",
+            "디자인 시스템 · 토큰 · 컴포넌트 분리 기준을 함께 설계 — 구현 시점이 아니라 설계 시점에 Atomic Design 경계를 미리 그음",
+            "GOPANG(인도네시아향 React 웹앱) 을 디자인 · 퍼블리싱 · 구현까지 1인으로 엔드투엔드 구축 (관리자 페이지 포함)",
+            "Figma 프로토타입과 상호작용 스펙을 직접 작성해 개발자 ↔ 디자이너 간 핑퐁 횟수를 줄임",
+            "타이포그래피 · 여백 · 컬러 팔레트 기준을 Tailwind 토큰 · CSS 변수처럼 코드 레벨로 바로 옮겨 적용",
+            "[공식 자격 · 학위]  정보처리기사(2024.12) · SQL 개발자 SQLD(2023.10) · 웹디자인기능사(2020.12) · 컴퓨터공학 학사(학점은행제, 2023.08 – 2024.10, 4.13 / 4.5)",
           ],
         },
         {
-          heading: "정식 자격으로 증명한 엔지니어링 (Formal engineering credentials)",
+          heading: "결과",
           body: [
-            "정보처리기사 (2024.12, 한국산업인력공단) — 소프트웨어 설계·DB·네트워크·운영체제 등 CS 기초 자격 국가 표준",
-            "SQL 개발자 (2023.10, 한국데이터산업진흥원) — 관계형 모델·SQL 작성·성능 기초",
-            "웹디자인기능사 (2020.12, 한국산업인력공단) — HTML/CSS/JS 및 디자인 툴 실무 자격",
-            "컴퓨터공학 학사 (2023.08 – 2024.10, 학점은행제, 4.13 / 4.5) — 알고리즘·자료구조·시스템 프로그래밍 등 학사 수준 커리큘럼 이수",
+            "디자인 리뷰와 개발 리뷰가 분리되지 않고, 한 자리에서 함께 이뤄지는 협업 루프가 정착됨",
+            "관리자 페이지 같은 '디자이너 리소스가 부족한 영역' 을 내부에서 직접 소화 — 전체 일정 단축",
+            "기획 단계에서 '구현 가능한 디자인' 을 빠르게 제안할 수 있어 시안 폐기율이 줄어듦",
+            "시각 디자인 감각 + CS 기초 자격을 함께 갖춰, 디자인 쪽이든 엔지니어링 쪽이든 어느 조직에 배치돼도 컨텍스트 스위치 비용이 낮음",
           ],
         },
         {
-          heading: "결과 (Result)",
-          body: [
-            "디자인 리뷰 · 개발 리뷰가 분리되지 않고, 같은 자리에서 이뤄지는 협업 루프 정착",
-            "관리자 페이지 등 '디자이너 리소스가 부족한 영역' 을 자체 소화 — 전체 일정 단축",
-            "신규 피처 기획 시 '구현 가능한 디자인' 을 빠르게 제안해 시안 폐기율 감소",
-            "시각 디자인 감각과 CS 기초 자격을 함께 갖춰 디자인·엔지니어링 어느 쪽 조직에 배치돼도 컨텍스트 스위치 비용이 낮음",
-          ],
-        },
-        {
-          heading: "회고 (Takeaway)",
-          body: "'디자인도 할 줄 아는 프론트엔드' 는 자칫 구현 깊이를 희생하는 포지션으로 읽히기 쉬워서, 정반대 방향 — 정식 자격 · 학위로 엔지니어링 정체성을 명확히 — 을 선택했습니다. 지금은 디자인 감각을 보유하되, 그것이 '엔지니어링 품질' 을 대체하지 않고 강화한다는 조합으로 포지셔닝하고 있습니다.",
+          heading: "회고",
+          body: "'디자인도 할 줄 아는 프론트엔드' 라는 포지션은 자칫 구현 깊이를 희생하는 것처럼 읽히기 쉬워서, 정반대 방향 — 정식 자격과 학위로 엔지니어링 정체성을 먼저 명확히 세우는 쪽 — 을 선택했습니다. 지금은 디자인 감각을 그대로 가지고 있으되, 그것이 엔지니어링 품질을 대체하는 게 아니라 강화하는 조합으로 스스로를 포지셔닝하고 있어요.",
         },
       ],
     },
@@ -399,22 +391,14 @@ export const HIGHLIGHTS: Highlight[] = [
           body: "I graduated in Visual Communication Design from Chungcheong University in 2014 and spent ~6 years in editorial design practice (Sep 2014 – May 2020). During that time, as I moved closer to web publishing, I realized I fit better on the 'implementation' side of the design/dev seam. From there I took a formal route — Craftsman Web Design (2020) → SQL Developer (2023) → Engineer Information Processing (2024) → a BEng in Computer Science through Korea's Academic Credit Bank System (2024) — not as a hobby switch, but to formally certify a frontend engineer identity.",
         },
         {
-          heading: "How it shows up in my work",
+          heading: "Approach",
           body: [
-            "In design reviews I translate between 'what's buildable' and 'what the UX intends' at the same time — interactions, state transitions, and edge cases are defined alongside the mock",
+            "In design reviews I translate between 'what's buildable' and 'what the UX intends' at the same time — interactions, state transitions, and edge cases get defined alongside the mock",
             "I co-define design tokens, systems, and component boundaries at the design phase — Atomic Design boundaries get drawn before code, not during",
             "GOPANG — solo end-to-end build of the Indonesian React web app (design · publishing · implementation, including the admin dashboard)",
             "I build Figma prototypes and interaction specs myself, cutting the dev/design ping-pong loop",
             "Typography, spacing, and palette judgments translate directly into code-level tokens (Tailwind, CSS variables)",
-          ],
-        },
-        {
-          heading: "Formal engineering credentials",
-          body: [
-            "Engineer Information Processing (Dec 2024, HRD Korea) — Korea's national CS foundation license covering software design, DB, networking, and OS",
-            "SQL Developer / SQLD (Oct 2023, Korea Data Agency) — relational modeling, SQL authoring, and performance basics",
-            "Craftsman Web Design (Dec 2020, HRD Korea) — HTML/CSS/JS and design-tool practice",
-            "B.Eng. in Computer Science (Aug 2023 – Oct 2024, Academic Credit Bank System, GPA 4.13 / 4.5) — algorithms, data structures, systems programming, and the rest of the bachelor-level curriculum",
+            "[Formal credentials]  Engineer Information Processing (Dec 2024) · SQLD (Oct 2023) · Craftsman Web Design (Dec 2020) · B.Eng. in Computer Science (Aug 2023 – Oct 2024, ACBS, GPA 4.13 / 4.5)",
           ],
         },
         {
@@ -434,6 +418,105 @@ export const HIGHLIGHTS: Highlight[] = [
     },
   },
 
+  // ─── 05. 이벤트 WebView 인터랙티브 게임 ─────────────────────────────────────
+  {
+    slug: "event-webview-games",
+    tags: ["Frontend", "Interaction", "WebView"],
+    ko: {
+      title: "월간 이벤트 — CSS 3D · 인터랙티브 게임",
+      meta: "2023 – 2025 · Bomulsen 월간 이벤트 · EJS · jQuery · CSS 3D",
+      summary:
+        "앱 스토어 검수를 우회 하기 위해 백엔드 저장소에 EJS 로 분리한 월간 이벤트 페이지에서, 순수 CSS 3D transform 과 jQuery 기반 게임 로직으로 다이스 보드 · RPS 토너먼트 · 슬롯 머신 등 인터랙티브 게임을 라이브러리 의존 없이 직접 구현 했습니다.",
+      sections: [
+        {
+          heading: "배경",
+          body: "보물선은 React Native 기반 모바일 앱이라, 매월 바뀌는 마케팅 이벤트를 앱 안에 포함시키면 매번 앱 스토어 검수 사이클(평균 1~2일 + 거절 가능성)을 거쳐야 했습니다. 운영팀의 빠른 출시 일정과 디자인 다양성을 동시에 만족시키기 위해, 이벤트 페이지를 백엔드 저장소(EJS 템플릿)로 분리하고 앱은 WebView 로만 띄우는 구조를 택했습니다. 단순 정적 페이지가 아니라 다이스 보드, RPS 토너먼트, 슬롯 머신 등 사용자 참여형 인터랙티브 게임이 매월 다른 디자인으로 들어가는 구조였습니다.",
+        },
+        {
+          heading: "문제 정의",
+          body: [
+            "three.js · P5.js 같은 외부 게임 라이브러리를 쓰면 번들이 커져서 WebView 초기 로딩이 느려짐",
+            "iOS · Android, 노치 · 홈 인디케이터, 다양한 종횡비(세로 · 가로 · 태블릿 · 폴더블) 어디에서도 레이아웃이 깨지지 않아야 했음",
+            "게임 단계별로 결과를 앱에 알려서, 사운드 · 햅틱 · 모달 닫기 같은 네이티브 기능을 트리거해야 함",
+            "카운트다운과 여러 단계의 결과 공개 같은 시간 기반 게임 흐름을 한 곳에서 일관되게 관리해야 함",
+            "매달 게임 종류가 달라져도 공통 패턴(EJS 변수 주입 · RN 통신 · 반응형 · 닫기 버튼) 은 재사용할 수 있어야 함",
+          ],
+        },
+        {
+          heading: "접근",
+          body: [
+            "순수 CSS 3D 트랜스폼 — transform-style: preserve-3d 와 rotateX/Y/Z · translateZ 만으로 정육면체 다이스, 원통형 슬롯 머신, 보드 셀 토글을 라이브러리 없이 구현. 슬롯 반지름은 radius = iWidth / 2 / tan(π / total) 공식으로 계산",
+            "min(Nvw, Nvh) 패턴을 써서 가로/세로 중 짧은 쪽에 맞춰 사이징 — 어떤 종횡비에서도 화면을 벗어나거나 잘리지 않도록 이중 제약",
+            "env(safe-area-inset-top/bottom) 와 @supports not (constant(...)) fallback 을 함께 써서 iOS 노치와 Android 홈 인디케이터를 양쪽 모두 대응",
+            "window.ReactNativeWebView.postMessage 로 게임 단계별 이벤트(webMessage: gold_choice/confirm/result, rspEnd: win/lose 등) 를 앱에 전달 → 앱은 받은 메시지로 사운드 · 햅틱 · 모달 닫기를 트리거",
+            "setInterval 카운트다운 + 음수 시간 분기로 '5초 선택 → 3초 선장 확정 → 3초 결과 공개 → 결과 팝업' 단계를 한 함수에서 오케스트레이션",
+            "게임 시작 시점에 티켓 소진 API 를 먼저 호출해 서버 상태를 선점하고, 이후 결과 처리가 실패하면 안전하게 롤백되도록 흐름을 설계",
+            "게임마다 EJS 파일을 따로 두되 공통 패턴(EJS 변수 주입 · RN 통신 · 닫기 버튼 · 반응형 base) 은 표준화 — 디자이너가 새 자산만 교체해도 게임 페이지를 빠르게 찍어낼 수 있음",
+          ],
+        },
+        {
+          heading: "결과",
+          body: [
+            "매월 이벤트 페이지를 앱 스토어 검수 없이 백엔드 배포만으로 즉시 출시할 수 있게 됨",
+            "다이스 보드 게임 · RPS 토너먼트(Gold/Silver 두 모드, 주간 랭킹 포함) · 슬롯 머신 등 인터랙티브 게임 4종 이상을 누적 운영",
+            "외부 게임 라이브러리 의존성이 0 이라 WebView 초기 로딩이 빠르고 번들 크기도 작음",
+            "공통 패턴이 표준화되어 있어 디자이너가 시안과 자산만 전달해도 새 게임 페이지를 빠르게 만들 수 있음",
+          ],
+        },
+        {
+          heading: "회고",
+          body: "'앱 스토어 검수 사이클 vs 운영 속도' 라는 모바일 앱의 구조적 제약을 인지하고, 백엔드 분리 + WebView + 양방향 메시지라는 아키텍처로 우회해본 경험이었습니다. 단순 정적 페이지가 아닌 인터랙티브 게임을 라이브러리 없이 직접 구현한 덕분에 디자인 자유도와 성능을 동시에 잡을 수 있었고, 모바일과 웹의 경계에서 협업 구조를 직접 설계해본 경험은 이후 어떤 프레임워크를 쓰더라도 그대로 응용할 수 있는 자산이 되었습니다.",
+        },
+      ],
+    },
+    en: {
+      title: "Monthly Event — CSS 3D · Interactive Games",
+      meta: "2023 – 2025 · Bomulsen monthly events · EJS · jQuery · CSS 3D",
+      summary:
+        "On monthly event pages separated into the backend repo as EJS templates (to bypass app-store review cycles), built interactive games — dice board, RPS tournament, slot machine — from scratch with pure CSS 3D transforms and jQuery, no game library required.",
+      sections: [
+        {
+          heading: "Context",
+          body: "Bomulsen is an RN-based mobile app, so every monthly marketing event embedded in the app would trigger an app-store review cycle (~1–2 days + possible rejection). To satisfy ops's fast release cadence and design variety, event pages were separated into the backend repo as EJS templates and loaded in the app via WebView. These weren't simple static pages — every month brought a different interactive game (dice board, RPS tournament, slot machine, etc.).",
+        },
+        {
+          heading: "Problem",
+          body: [
+            "Adopting external game libraries (three.js, P5.js, etc.) would inflate the bundle and slow WebView initial load",
+            "The layout had to survive iOS / Android, notches / home indicators, and varied aspect ratios (portrait, landscape, tablet, foldable)",
+            "Stage-by-stage game outcomes had to reach the app so native effects (sound, haptics, modal close) could fire",
+            "Time-based game flow (countdowns, staged result reveals) needed consistent orchestration in one place",
+            "Games differed month to month, but common patterns (EJS variable injection, RN messaging, responsive base, close button) had to be reusable",
+          ],
+        },
+        {
+          heading: "Approach",
+          body: [
+            "Pure CSS 3D transforms — `transform-style: preserve-3d` + `rotateX/Y/Z` + `translateZ` to build the dice cube, the cylindrical slot reel (`radius = iWidth / 2 / Math.tan(Math.PI / total)`), and toggling board cells, all without a library",
+            "Responsive double-constraint — `min(Nvw, Nvh)` sizes to whichever axis is shorter so layouts never overflow regardless of aspect ratio",
+            "Safe-area handling — `env(safe-area-inset-top/bottom)` with `@supports not (constant(...))` fallback covers iOS notches and Android home indicators",
+            "Bidirectional RN messaging — `window.ReactNativeWebView.postMessage(JSON.stringify({...}))` dispatches staged events (`webMessage: gold_choice/confirm/result`, `rspEnd: win/lose`) to the app, which triggers sound, haptics, and modal close",
+            "Time-driven state machine — setInterval countdown with negative-time branches orchestrates '5s pick → 3s lock-in → 3s reveal → result popup' in one place",
+            "Ticket pre-deduction + rollback — call the ticket API on game start to reserve server state, then converge safely via the result flow",
+            "Each game ships as its own EJS file, while common patterns (EJS variable injection, RN messaging, close button, responsive base) are standardized — so a new game ships fast just by swapping designer assets",
+          ],
+        },
+        {
+          heading: "Result",
+          body: [
+            "Each monthly event page ships through a backend deploy alone, with no app-store review",
+            "Operated 4+ interactive games — dice board, RPS tournament (Gold / Silver modes with weekly ranking), slot machine, and more",
+            "Zero external game-library dependency → fast WebView initial load and small bundle",
+            "Standardized patterns let new game pages ship quickly from designer assets alone",
+          ],
+        },
+        {
+          heading: "Takeaway",
+          body: "Recognizing 'app-store review cycle vs. ops velocity' as a structural mobile constraint, I worked around it with backend separation + WebView + bidirectional messaging. Building interactive games from scratch (rather than pulling in a game library) preserved both design freedom and performance, and designing the mobile/web collaboration boundary myself became a transferable asset that holds up under any framework.",
+        },
+      ],
+    },
+  },
 ];
 
 export const HIGHLIGHT_SLUGS = HIGHLIGHTS.map((h) => h.slug);

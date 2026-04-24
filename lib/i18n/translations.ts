@@ -1,11 +1,11 @@
 /**
  * 포트폴리오 전역 번역본 (`ko` / `en`).
  *
- * - 홈 페이지와 상세 페이지 모두 이 모듈을 단일 소스로 사용합니다.
- * - 신규 번역 키는 반드시 `Translation` 타입(`lib/types/portfolio.ts`) 에 먼저 선언한 뒤 추가하세요.
+ * - 홈 페이지와 상세 페이지 모두이 모듈을 단일 소스로 사용합니다.
+ * - 신규 번역 키는 반드시 `Translation` 타입(`lib/types/portfolio.ts`)에 먼저 선언한 뒤 추가하세요.
  * - `highlights[i].slug` 는 `lib/highlights.ts` 의 HIGHLIGHTS 배열 slug 와 반드시 일치해야 합니다.
  *
- * 고유 데이터(학력·자격증·수상 등) 는 본인의 실제 정보로 교체해야 하는 자리입니다.
+ * 고유 데이터(학력·자격증·수상 등)는 본인의 실제 정보로 교체해야 하는 자리입니다.
  * 각 자리에 `TODO:` 주석으로 명시해 두었습니다.
  */
 
@@ -185,7 +185,7 @@ export const T: Record<Lang, Translation> = {
       "UI를 Atoms → Molecules → Organisms → Templates → Pages 5계층으로 분리해 재사용성과 테스트 용이성을 확보했습니다.",
     hooksDesc:
       "비즈니스 로직을 Custom Hook으로 분리해 컴포넌트는 UI 렌더링에만 집중합니다.",
-    performanceLabel: "왜 이 라이브러리? — 기술 선택 근거 및 성능 최적화",
+    performanceLabel: "왜이 라이브러리? — 기술 선택 근거 및 성능 최적화",
     commitConventionLabel: "Commit Convention",
     commitConventionDesc: "feat · fix · chore  타입을 일관되게 적용합니다.",
     skillsLabel: "Technical Skills",
@@ -235,7 +235,7 @@ export const T: Record<Lang, Translation> = {
           period: "2026.01 — 진행 중",
           details: [
             "Atomic Design Pattern 도입으로 코드 유지보수성 및 일관성 확보",
-            "Storybook 활용한 컴포넌트 주도 개발(CDD) 환경 구축",
+            "Zustand · TanStack Query 도입으로 fetch · 로딩 · 에러 처리를 추상화 — 컴포넌트는 UI 렌더링에만 집중, 자동 캐싱으로 사용자 체감 속도 개선",
             "Next.js App Router 기반 아키텍처 설계 및 SSR 기반 사용자 경험 최적화",
             "GitHub Actions 기반 CI/CD 파이프라인 구축 — lint · type check · build 자동화 및 Vercel 자동 배포 연동",
             "Claude Code 기반 AI 페어 프로그래밍 워크플로우 정착 — CLAUDE.md로 프로젝트 컨텍스트 문서화, 커스텀 커맨드(/review · /lint-check)와 코드 생성 템플릿 5종(Component · Hook · Screen · ViewModel · RouteHandler)으로 컨벤션 자동 준수 · 리뷰 · 린트까지 에이전트가 일관되게 수행",
@@ -301,9 +301,11 @@ export const T: Record<Lang, Translation> = {
             "Google Play 16KB 정책 준수를 위한 RN v0.70 → v0.76 업그레이드 및 OS 호환성 확보",
             "RESTful API 기반 서버-클라이언트 통신 구현 — 공통 HTTP 클라이언트로 인증 토큰 · 파라미터 직렬화 · 응답 처리 · 토큰 스토리지 동기화 일원화",
             "보물함 화면 개발 — 탭·검색·필터·정렬·잠금 토글이 결합된 복합 리스트 UI 및 페이지네이션 구현",
+            "FlatList 가상 스크롤 + useCallback · React.memo · FastImage 조합으로 수백 개 아이템 무한스크롤 성능 유지",
             "아이템 상태별 버튼 매트릭스 설계 — 배송·거래·분해·환급 액션 분기 처리",
             "거래취소·포인트 환급 등 위험한 액션을 위한 공통 확인 모달 플로우 구현",
-            "월간 이벤트/프로모션 페이지 개발 — 앱 내 WebView에 React 기반 반응형 UI를 띄워 다양한 단말·해상도에서 일관된 경험 제공",
+            "월간 이벤트/프로모션 페이지 개발 — 앱 스토어 검수 없이 매달 새 이벤트를 즉시 배포할 수 있도록 백엔드 저장소에 EJS 템플릿으로 페이지 구성, 앱은 WebView로 띄워 반응형 UI 제공",
+            "이벤트 페이지에 순수 CSS 3D transform 기반 인터랙티브 게임 (다이스 보드 · RPS 토너먼트 · 슬롯 머신) 직접 구현, RN ↔ WebView postMessage 로 게임 단계별 네이티브 양방향 연동",
             "관리자 페이지 개발 및 유지보수",
           ],
           hasBranchStrategy: true,
@@ -373,7 +375,7 @@ export const T: Record<Lang, Translation> = {
               ],
             },
             {
-              label: "월간 이벤트 WebView (React · 반응형)",
+              label: "월간 이벤트 WebView (EJS · 반응형)",
               layout: "scroll",
               items: [
                 {
@@ -419,7 +421,7 @@ export const T: Record<Lang, Translation> = {
           period:
             "2024.06 — 2025.10 (6개월 내 퍼블리싱 · 프론트 개발 완료 → 2025.02 출시, 이후 유지보수)",
           details: [
-            "보물선(React Native) 의 서비스 구조를 기반으로, 프론트 메인 담당으로 인도네시아향 랜덤박스 React 웹앱을 신규 구축",
+            "보물선(React Native)의 서비스 구조를 기반으로, 프론트 메인 담당으로 인도네시아향 랜덤박스 React 웹앱을 신규 구축",
             "디자인 시안 퍼블리싱부터 React 컴포넌트 구현 · 상태 관리 · API 연동까지 프론트엔드 전 과정 1인 전담",
             "6개월 내 사용자 화면 40+ · 관리자 화면 30+ 총 70+ 페이지 단독 구축",
             "다양한 모바일 단말 · 해상도에서 일관된 경험을 제공하는 반응형 퍼블리싱 + 인도네시아 현지 사용자 맥락에 맞춘 UI/UX 설계",
@@ -493,6 +495,13 @@ export const T: Record<Lang, Translation> = {
         description:
           "탭 · 검색 · 필터 · 정렬 · 잠금 토글이 동시에 작동하는 단일 화면에서 11종 상태코드 × 타입코드 × 잠금 여부 버튼 매트릭스와 6종 모달을 하나의 패턴으로 설계했습니다.",
         tags: ["Technical", "State Machine", "UX"],
+      },
+      {
+        slug: "event-webview-games",
+        title: "월간 이벤트 — CSS 3D · 인터랙티브 게임",
+        description:
+          "앱 스토어 검수를 우회하기 위해 백엔드 EJS 로 분리한 월간 이벤트 페이지에서, 순수 CSS 3D transform 과 jQuery 기반 게임 로직으로 다이스 보드 · RPS 토너먼트 · 슬롯 머신 등 인터랙티브 게임을 라이브러리 없이 직접 구현했습니다.",
+        tags: ["Frontend", "Interaction", "WebView"],
       },
     ],
   },
@@ -719,7 +728,7 @@ export const T: Record<Lang, Translation> = {
           period: "Jan 2026 — Present",
           details: [
             "Adopted Atomic Design Pattern to improve maintainability and consistency",
-            "Set up Component-Driven Development (CDD) environment with Storybook",
+            "Adopted Zustand and TanStack Query to abstract fetch · loading · error handling — components focus purely on UI rendering, and automatic caching improves perceived performance",
             "Designed App Router architecture; optimized SSR user experience",
             "Built a CI/CD pipeline with GitHub Actions — automated lint, type check, and build; integrated Vercel auto-deploy",
             "Established a Claude Code-powered AI pair-programming workflow — documented project context in CLAUDE.md, defined custom commands (/review · /lint-check), and maintained 5 code-generation templates (Component · Hook · Screen · ViewModel · RouteHandler) so the agent consistently enforces conventions, performs reviews, and runs lint checks",
@@ -785,9 +794,11 @@ export const T: Record<Lang, Translation> = {
             "Upgraded RN (v0.70 → v0.76) to meet Google Play 16KB policy; handled OS compatibility",
             "Implemented RESTful API-based client-server integration — unified a shared HTTP client covering auth, parameter serialization, response handling, and auth-storage sync",
             "Built the Treasure Box screen — a complex list UI combining tab, search, filter, sort, and a lock toggle with pagination",
+            "Tuned scroll performance for hundreds-of-items infinite list — FlatList virtualization with useCallback · React.memo · FastImage to keep frames smooth",
             "Designed an item-level button matrix branching Ship / Trade / Dismantle / Refund actions by state",
             "Built a shared confirm-modal flow for irreversible actions like trade-cancel and point refund",
-            "Built monthly event / promo pages as React-based responsive UIs loaded in an in-app WebView — consistent experience across devices and resolutions",
+            "Built monthly event / promo pages — placed EJS templates in the backend repo so each new event ships without an app-store review cycle, loaded via in-app WebView as responsive UIs",
+            "Built interactive games (dice board, RPS tournament, slot machine) directly in event pages with pure CSS 3D transforms — no game library — and wired stage-by-stage RN ↔ WebView postMessage for native-side effects",
             "Developed and maintained the admin dashboard",
           ],
           hasBranchStrategy: true,
@@ -857,7 +868,7 @@ export const T: Record<Lang, Translation> = {
               ],
             },
             {
-              label: "Monthly event WebView (React · responsive)",
+              label: "Monthly event WebView (EJS · responsive)",
               layout: "scroll",
               items: [
                 {
@@ -977,6 +988,13 @@ export const T: Record<Lang, Translation> = {
         description:
           "Documented how I unified the 11-state × type-code × lock-flag button matrix and six distinct modals into one pattern on a screen where tab, search, filter, sort, and a lock toggle all operate at once.",
         tags: ["Technical", "State Machine", "UX"],
+      },
+      {
+        slug: "event-webview-games",
+        title: "Monthly Event — CSS 3D · Interactive Games",
+        description:
+          "On monthly event pages separated into the backend repo as EJS (to bypass app-store reviews), built interactive games (dice board, RPS tournament, slot machine) from scratch with pure CSS 3D transforms and jQuery — no game library required.",
+        tags: ["Frontend", "Interaction", "WebView"],
       },
     ],
   },

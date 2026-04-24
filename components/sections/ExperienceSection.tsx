@@ -7,7 +7,7 @@
 
 import React from "react";
 
-import { ArrowRightIcon } from "@/components/icons";
+import { TouchTargetIcon } from "@/components/icons";
 import { AtomicDesignDiagram } from "@/components/sections/code-showcase/AtomicDesignDiagram";
 import { ArchitectureTree } from "@/components/sections/experience/ArchitectureTree";
 import { CommitConventionSection } from "@/components/sections/experience/CommitConventionSection";
@@ -18,6 +18,51 @@ import { StatBadge } from "@/components/ui/StatBadge";
 import { PROJECT_DETAIL } from "@/lib/data/project-detail";
 import type { Lang } from "@/lib/stores/uiStore";
 import type { Project, Translation } from "@/lib/types/portfolio";
+
+/**
+ * 디스클로저 CTA summary — "클릭 가능" 어포던스 강화 버전.
+ *
+ * - 아이콘 + 타이틀 + 힌트 + 우측에 "탭 / 클릭" 손 아이콘.
+ * - 평상시엔 손이 살짝 눌렀다 뗐다 반복하면서 "눌러보세요" 신호를 줌.
+ * - hover 시 카드가 살짝 떠오르고(shadow + translate-y) 손 모션은 멈춤.
+ * - 열린 상태(`group-open/detail`) 에서는 손 아이콘 모션 자동 정지.
+ *
+ * 반드시 `<details className="group/detail ...">` 내부의 `<summary>` 로만 사용.
+ */
+function DisclosureSummary({
+  icon,
+  label,
+  hint,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  hint: string;
+}) {
+  return (
+    <summary className="group/summary border-accent-500/40 bg-accent-50/60 hover:border-accent-500 hover:bg-accent-50 hover:shadow-md dark:border-accent-500/30 dark:bg-accent-950/20 dark:hover:border-accent-500/60 dark:hover:bg-accent-950/30 flex cursor-pointer list-none items-center justify-between gap-4 rounded-xl border p-5 transition-all hover:-translate-y-0.5 [&::-webkit-details-marker]:hidden">
+      <div className="flex items-center gap-4">
+        <div className="bg-accent-500 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-white shadow-sm transition-transform group-hover/summary:scale-105">
+          {icon}
+        </div>
+        <div className="min-w-0">
+          <p className="text-accent-700 dark:text-accent-300 text-sm font-bold">
+            {label}
+          </p>
+          <p className="text-accent-600/70 dark:text-accent-400/70 mt-0.5 text-xs leading-relaxed">
+            {hint}
+          </p>
+        </div>
+      </div>
+      {/* 우측 어포던스 — 터치 타겟 아이콘 (중심 점 + 퍼지는 동심원 2개).
+          동심원 자체가 sonar ping 처럼 바깥으로 퍼지며 "여기를 누르세요" 신호를
+          준다. 별도 hand 나 ripple 오버레이가 필요없이 한 SVG 로 완결.
+          디스클로저가 열리면(=이미 클릭됨) 아이콘 전체가 페이드아웃. */}
+      <span className="text-accent-500 inline-flex shrink-0 transition-opacity duration-200 group-open/detail:opacity-0">
+        <TouchTargetIcon className="h-[30px] w-[30px]" />
+      </span>
+    </summary>
+  );
+}
 
 function ProjectCard({
   project,
@@ -98,38 +143,28 @@ function ProjectCard({
 function BranchStrategyDetail({ t }: { t: Translation }) {
   return (
     <details className="group/detail mt-4">
-      {/* CTA 스타일 summary — NextJsProjectDetail 과 동일 톤 */}
-      <summary className="border-accent-500/40 bg-accent-50/60 hover:border-accent-500 hover:bg-accent-50 dark:border-accent-500/30 dark:bg-accent-950/20 dark:hover:border-accent-500/60 dark:hover:bg-accent-950/30 flex cursor-pointer list-none items-center justify-between gap-4 rounded-xl border p-5 transition-all [&::-webkit-details-marker]:hidden">
-        <div className="flex items-center gap-4">
-          <div className="bg-accent-500 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-white shadow-sm">
-            {/* Git branch 아이콘 */}
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              viewBox="0 0 24 24"
-              aria-hidden
-            >
-              <line x1="6" y1="3" x2="6" y2="15" />
-              <circle cx="18" cy="6" r="3" />
-              <circle cx="6" cy="18" r="3" />
-              <path d="M18 9a9 9 0 0 1-9 9" />
-            </svg>
-          </div>
-          <div className="min-w-0">
-            <p className="text-accent-700 dark:text-accent-300 text-sm font-bold">
-              {t.branchStrategyLabel}
-            </p>
-            <p className="text-accent-600/70 dark:text-accent-400/70 mt-0.5 text-xs leading-relaxed">
-              {t.branchStrategyHint}
-            </p>
-          </div>
-        </div>
-        <ArrowRightIcon className="text-accent-500 h-5 w-5 shrink-0 rotate-90 transition-transform group-open/detail:rotate-[270deg]" />
-      </summary>
+      <DisclosureSummary
+        label={t.branchStrategyLabel}
+        hint={t.branchStrategyHint}
+        icon={
+          /* Git branch 아이콘 */
+          <svg
+            className="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            viewBox="0 0 24 24"
+            aria-hidden
+          >
+            <line x1="6" y1="3" x2="6" y2="15" />
+            <circle cx="18" cy="6" r="3" />
+            <circle cx="6" cy="18" r="3" />
+            <path d="M18 9a9 9 0 0 1-9 9" />
+          </svg>
+        }
+      />
       <div className="mt-4 rounded-xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/30">
         {/* 5단계 flow — 번호 chip + 설명 */}
         <ol className="space-y-4">
@@ -157,36 +192,27 @@ function BranchStrategyDetail({ t }: { t: Translation }) {
 function NextJsProjectDetail({ t, lang }: { t: Translation; lang: Lang }) {
   return (
     <details className="group/detail mt-4">
-      {/* CTA 스타일 summary — 눈에 띄도록 블루 액센트 카드로 */}
-      <summary className="border-accent-500/40 bg-accent-50/60 hover:border-accent-500 hover:bg-accent-50 dark:border-accent-500/30 dark:bg-accent-950/20 dark:hover:border-accent-500/60 dark:hover:bg-accent-950/30 flex cursor-pointer list-none items-center justify-between gap-4 rounded-xl border p-5 transition-all [&::-webkit-details-marker]:hidden">
-        <div className="flex items-center gap-4">
-          <div className="bg-accent-500 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-white shadow-sm">
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-              aria-hidden
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M13 10V3L4 14h7v7l9-11h-7z"
-              />
-            </svg>
-          </div>
-          <div className="min-w-0">
-            <p className="text-accent-700 dark:text-accent-300 text-sm font-bold">
-              {t.projectDetailLabel}
-            </p>
-            <p className="text-accent-600/70 dark:text-accent-400/70 mt-0.5 text-xs leading-relaxed">
-              {t.projectDetailHint}
-            </p>
-          </div>
-        </div>
-        <ArrowRightIcon className="text-accent-500 h-5 w-5 shrink-0 rotate-90 transition-transform group-open/detail:rotate-[270deg]" />
-      </summary>
+      <DisclosureSummary
+        label={t.projectDetailLabel}
+        hint={t.projectDetailHint}
+        icon={
+          /* Lightning bolt — "자세히/심층" 상징 */
+          <svg
+            className="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+            aria-hidden
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13 10V3L4 14h7v7l9-11h-7z"
+            />
+          </svg>
+        }
+      />
       <div className="mt-4 space-y-4 rounded-xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/30">
         {/* Stats — CI/CD · Branches 2종. 증거 스크린샷은 Atomic Design · CI/CD 그룹에 포함됨 */}
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">

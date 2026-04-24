@@ -65,9 +65,15 @@ export const PROJECT_DETAIL: ProjectDetail = {
       items: [
         {
           name: "Zustand",
-          desc: "Redux 대비 ~90% 보일러플레이트 감소. shallow compare 로 리렌더 최소화",
+          desc: "클라이언트 상태 — Redux 대비 ~90% 보일러플레이트 감소. shallow compare 로 리렌더 최소화",
           descEn:
-            "~90% less boilerplate than Redux; shallow compare minimizes re-renders",
+            "Client state — ~90% less boilerplate than Redux; shallow compare minimizes re-renders",
+        },
+        {
+          name: "TanStack Query",
+          desc: "서버 상태 — 자동 캐싱 · stale-while-revalidate · 자동 리페치 · 무한스크롤 · 낙관적 업데이트",
+          descEn:
+            "Server state — auto caching · stale-while-revalidate · auto refetch · infinite scroll · optimistic updates",
         },
       ],
     },

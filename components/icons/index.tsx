@@ -134,6 +134,127 @@ export const CertificateIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+// ─── Highlight 상세 페이지의 섹션 헤딩 아이콘 (배경/문제/접근/결과/회고) ──────
+
+export const ContextIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={className ?? "h-4 w-4"}
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={1.75}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    viewBox="0 0 24 24"
+    aria-hidden
+  >
+    {/* 책 — "맥락/배경" */}
+    <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v16H6.5A2.5 2.5 0 0 0 4 20.5v-16z" />
+    <path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5H6.5A2.5 2.5 0 0 0 4 20.5z" />
+  </svg>
+);
+
+export const ProblemIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={className ?? "h-4 w-4"}
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={1.75}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    viewBox="0 0 24 24"
+    aria-hidden
+  >
+    {/* 물음표 원 — "문제 정의" */}
+    <circle cx="12" cy="12" r="9" />
+    <path d="M9.5 9a2.5 2.5 0 1 1 4 2l-1.5 1v1.5" />
+    <circle cx="12" cy="17" r="0.5" fill="currentColor" />
+  </svg>
+);
+
+export const ApproachIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={className ?? "h-4 w-4"}
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={1.75}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    viewBox="0 0 24 24"
+    aria-hidden
+  >
+    {/* 나침반 — "접근/방향" */}
+    <circle cx="12" cy="12" r="9" />
+    <path d="m15.5 8.5-2.5 5.5-5.5 2.5 2.5-5.5z" />
+  </svg>
+);
+
+export const ResultIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={className ?? "h-4 w-4"}
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={1.75}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    viewBox="0 0 24 24"
+    aria-hidden
+  >
+    {/* 체크 원 — "결과/완료" */}
+    <circle cx="12" cy="12" r="9" />
+    <path d="m8 12 3 3 6-6" />
+  </svg>
+);
+
+export const TakeawayIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={className ?? "h-4 w-4"}
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={1.75}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    viewBox="0 0 24 24"
+    aria-hidden
+  >
+    {/* 전구 — "회고/통찰" */}
+    <path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.5.5 1 1.2 1 2V16h6v-.5c0-.8.5-1.5 1-2A6 6 0 0 0 12 3z" />
+  </svg>
+);
+
+// ─── CTA 디스클로저용 "터치 타겟" 아이콘 ─────────────────────────────────────
+//
+// 중심 점 + 바깥으로 퍼지는 2개 동심원의 sonar ping 모양. Experience 섹션의
+// "상세 스택/브랜치 전략" 카드에서 어포던스로 사용합니다.
+//
+// - 중심 dot 은 정적 (탭 포인트 = 이 자리를 누르세요).
+// - 2개의 `touch-ring` 은 `globals.css` 에서 scale + opacity 로
+//   바깥쪽으로 퍼지며 사라지는 애니메이션 (sonar 느낌) 을 가집니다.
+// - 두 번째 ring 은 animation-delay 로 지연돼 ping 이 연달아 터지는 효과.
+
+export const TouchTargetIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={className ?? "h-5 w-5"}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={1.75}
+    overflow="visible"
+    aria-hidden
+  >
+    {/* 중심 탭 포인트 — 평상시 정적, hover 시 살짝 커짐 */}
+    <circle cx="12" cy="12" r="3" fill="currentColor" className="touch-dot" />
+    {/* 퍼지는 ring 1 — 바로 시작 */}
+    <circle cx="12" cy="12" r="8" className="touch-ring" />
+    {/* 퍼지는 ring 2 — 지연 시작으로 double-ping */}
+    <circle
+      cx="12"
+      cy="12"
+      r="8"
+      className="touch-ring touch-ring-delayed"
+    />
+  </svg>
+);
+
 export const TrophyIcon = ({ className }: { className?: string }) => (
   <svg
     className={className ?? "h-5 w-5"}

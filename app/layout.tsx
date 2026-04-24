@@ -4,6 +4,9 @@ import {
   Geist_Mono,
   Instrument_Serif,
 } from "next/font/google";
+
+import { ScrollToTopButton } from "@/components/ui/ScrollToTopButton";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -97,7 +100,10 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: UI_INIT_SCRIPT }} />
       </head>
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        {children}
+        <ScrollToTopButton />
+      </body>
     </html>
   );
 }

@@ -22,7 +22,10 @@ import { EducationSection } from "@/components/sections/EducationSection";
 import { ExperienceSection } from "@/components/sections/ExperienceSection";
 import { HeaderSection } from "@/components/sections/HeaderSection";
 // import { IntroSection } from "@/components/sections/IntroSection"; // 인트로 섹션 임시 비활성
-import { HighlightsSection } from "@/components/sections/HighlightsSection";
+import {
+  HighlightsSection,
+  HOME_SCROLL_KEY,
+} from "@/components/sections/HighlightsSection";
 import { ImpactStrip } from "@/components/sections/ImpactStrip";
 import { LegacyPortfolioSection } from "@/components/sections/LegacyPortfolioSection";
 import { SkillsSection } from "@/components/sections/SkillsSection";
@@ -42,6 +45,34 @@ export default function Home() {
   const onToggleLang = () => doToggleLang(lang);
 
   const t = T[lang];
+
+  /**
+   * 상세 페이지에서 "돌아가기" 로 홈에 돌아왔을 때 스크롤 위치 복원.
+   *
+   * - `HighlightsSection` 이 카드 클릭 시 `sessionStorage` 에 저장해둔
+   *   `window.scrollY` 값을 마운트 직후 읽어 그 위치로 스크롤합니다.
+   * - Next.js 의 기본 동작은 push 시 맨 위로 이동하므로, 한 번의 rAF 로
+   *   레이아웃이 완료된 뒤 scrollTo 를 호출합니다.
+   * - 복원 후에는 키를 제거해 새로고침 · 재진입 시 혼선을 방지합니다.
+   */
+  React.useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(HOME_SCROLL_KEY);
+      if (!saved) return;
+      const y = parseInt(saved, 10);
+      sessionStorage.removeItem(HOME_SCROLL_KEY);
+      if (Number.isNaN(y)) return;
+      // 레이아웃이 그려진 다음 프레임에 스크롤 — 콘텐츠 높이가 확보되기 전에
+      // scrollTo 를 호출하면 최대 스크롤 가능 지점까지만 이동하기 때문.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          window.scrollTo(0, y);
+        });
+      });
+    } catch {
+      /* sessionStorage 불가 환경은 무시 */
+    }
+  }, []);
 
   return (
     <div id="top" className="min-h-screen bg-zinc-50 font-sans dark:bg-black">

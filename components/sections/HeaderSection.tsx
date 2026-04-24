@@ -12,6 +12,7 @@
 import React from "react";
 
 import { GitHubIcon } from "@/components/icons";
+// import { ChipGrabPeek } from "@/components/ui/ChipGrabPeek"; // 실제 캐릭터 SVG 교체 대기 중 — 임시 비활성
 import { GITHUB_USERNAME, PROFILE } from "@/lib/data/profile";
 import type { Translation } from "@/lib/types/portfolio";
 
@@ -80,13 +81,18 @@ export function HeaderSection({ t }: { t: Translation }) {
           </div>
         </div>
 
-        {/* 구직 상태 chip — 펄스 도트로 "현재 활성" 시그널 */}
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-50 px-3 py-1.5 text-xs font-medium text-accent-700 ring-1 ring-accent-500/20 dark:bg-accent-950/40 dark:text-accent-300 dark:ring-accent-500/30">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-500 opacity-60" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-500" />
+        {/* 구직 상태 chip — 실제 캐릭터 SVG 준비 전까지 ChipGrabPeek 임시 비활성.
+            (뒤에서 손·얼굴이 올라와 chip 위로 얹히는 peek 연출 담당) */}
+        <span className="relative inline-flex isolate">
+          {/* <ChipGrabPeek /> */}
+          {/* dark:bg-accent-950 를 불투명으로 — 뒤에서 등장하는 손이 반투명 bg 너머로 비쳐 보이는 현상 방지 */}
+          <span className="relative inline-flex items-center gap-1.5 rounded-full bg-accent-50 px-3 py-1.5 text-xs font-medium text-accent-700 ring-1 ring-accent-500/20 dark:bg-accent-950 dark:text-accent-300 dark:ring-accent-500/30">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-500 opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-500" />
+            </span>
+            {t.availability}
           </span>
-          {t.availability}
         </span>
       </div>
     </header>

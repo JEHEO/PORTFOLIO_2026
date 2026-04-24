@@ -4,33 +4,80 @@
  * - 서버 컴포넌트 `page.tsx` 에서 `slug` 를 prop 으로 받아 렌더합니다.
  * - 이 파일만 "use client" 라서 언어/테마 토글 같은 브라우저 상태를 사용할 수 있습니다.
  * - 콘텐츠는 `lib/highlights.ts` 의 HIGHLIGHTS 에서 slug 로 조회합니다.
+ * - 섹션 헤딩(배경 · 문제 정의 · 접근 · 결과 · 회고) 앞에 주제별 아이콘이 붙습니다.
+ * - "돌아가기" 버튼은 브라우저 히스토리 back 을 써서 홈 스크롤 위치를 복원합니다
+ *   (히스토리가 없는 경우에만 `/` 로 이동).
  */
 
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
-import { ArrowLeftIcon, MoonIcon, SunIcon } from "@/components/icons";
+import {
+  ApproachIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ContextIcon,
+  MoonIcon,
+  ProblemIcon,
+  ResultIcon,
+  SunIcon,
+  TakeawayIcon,
+} from "@/components/icons";
 import {
   toggleLang as doToggleLang,
   toggleTheme as doToggleTheme,
   useIsDark,
   useLang,
 } from "@/hooks/useUiState";
+import { T } from "@/lib/i18n/translations";
 import { findHighlight, type HighlightSection } from "@/lib/highlights";
 import type { Lang } from "@/lib/stores/uiStore";
 
+// ─── 섹션 헤딩 → 아이콘 매핑 ─────────────────────────────────────────────────
+//
+// "배경 · 사람 레이어" 같은 변형도 prefix 매칭으로 같은 아이콘 적용.
+function getSectionIcon(heading: string): React.ReactNode {
+  const h = heading.trim();
+  if (h.startsWith("배경") || h.startsWith("Context")) {
+    return <ContextIcon className="h-4 w-4" />;
+  }
+  if (h.startsWith("문제") || h.startsWith("Problem")) {
+    return <ProblemIcon className="h-4 w-4" />;
+  }
+  if (h.startsWith("접근") || h.startsWith("Approach")) {
+    return <ApproachIcon className="h-4 w-4" />;
+  }
+  if (h.startsWith("결과") || h.startsWith("Result")) {
+    return <ResultIcon className="h-4 w-4" />;
+  }
+  if (h.startsWith("회고") || h.startsWith("Takeaway")) {
+    return <TakeawayIcon className="h-4 w-4" />;
+  }
+  return null;
+}
+
 // ─── i18n copy (디테일 페이지 전용 짧은 텍스트) ─────────────────────────────
 
-const COPY: Record<Lang, { back: string; notFoundTitle: string; notFoundBody: string }> = {
+const COPY: Record<
+  Lang,
+  {
+    back: string;
+    next: string;
+    notFoundTitle: string;
+    notFoundBody: string;
+  }
+> = {
   ko: {
     back: "돌아가기",
+    next: "다음 하이라이트",
     notFoundTitle: "페이지를 찾을 수 없습니다",
     notFoundBody: "요청하신 하이라이트가 존재하지 않거나 이동되었습니다.",
   },
   en: {
     back: "Back",
+    next: "Next highlight",
     notFoundTitle: "Page not found",
     notFoundBody: "The highlight you requested doesn't exist or has been moved.",
   },
@@ -40,10 +87,12 @@ const COPY: Record<Lang, { back: string; notFoundTitle: string; notFoundBody: st
 
 function Section({ section }: { section: HighlightSection }) {
   const isList = Array.isArray(section.body);
+  const icon = getSectionIcon(section.heading);
   return (
     <section className="space-y-3">
-      <h2 className="text-xs font-semibold uppercase tracking-widest text-accent-500">
-        {section.heading}
+      <h2 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-accent-500">
+        {icon}
+        <span>{section.heading}</span>
       </h2>
       {isList ? (
         <ul className="space-y-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
@@ -70,23 +119,26 @@ function TopBar({
   isDark,
   onToggleLang,
   onToggleTheme,
+  onBack,
 }: {
   lang: Lang;
   isDark: boolean;
   onToggleLang: () => void;
   onToggleTheme: () => void;
+  onBack: () => void;
 }) {
   const backLabel = COPY[lang].back;
   return (
     <nav className="fixed top-0 right-0 left-0 z-50 border-b border-zinc-200/80 bg-white/80 backdrop-blur-md dark:border-zinc-800/80 dark:bg-black/80">
       <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-600 transition-colors hover:text-accent-500 dark:text-zinc-400"
+        <button
+          type="button"
+          onClick={onBack}
+          className="inline-flex cursor-pointer items-center gap-1.5 text-xs font-medium text-zinc-600 transition-colors hover:text-accent-500 dark:text-zinc-400"
         >
           <ArrowLeftIcon />
           {backLabel}
-        </Link>
+        </button>
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -114,12 +166,37 @@ function TopBar({
 
 export function HighlightDetailClient({ slug }: { slug: string }) {
   const highlight = findHighlight(slug);
+  const router = useRouter();
 
   const lang = useLang();
   const isDark = useIsDark();
 
   const onToggleTheme = () => doToggleTheme(isDark);
   const onToggleLang = () => doToggleLang(lang);
+
+  /**
+   * 돌아가기 — 항상 홈(`/`) 으로 이동.
+   * (히스토리 back 은 상세 간 네비게이션을 고려해 쓰지 않음)
+   */
+  const onBack = React.useCallback(() => {
+    router.push("/");
+  }, [router]);
+
+  /**
+   * 다음 하이라이트 계산 — 홈 카드 순서(`T[lang].highlights`) 기준.
+   * 현재가 마지막이면 첫 번째로 순환해서 "cycling" 가능.
+   */
+  const homeOrder = T[lang].highlights;
+  const currentIdx = homeOrder.findIndex((h) => h.slug === slug);
+  const nextHighlight =
+    currentIdx >= 0
+      ? homeOrder[(currentIdx + 1) % homeOrder.length]
+      : null;
+
+  const onNext = React.useCallback(() => {
+    if (!nextHighlight) return;
+    router.push(`/highlights/${nextHighlight.slug}`);
+  }, [router, nextHighlight]);
 
   // 존재하지 않는 slug — 간단한 404 UI
   if (!highlight) {
@@ -131,6 +208,7 @@ export function HighlightDetailClient({ slug }: { slug: string }) {
           isDark={isDark}
           onToggleLang={onToggleLang}
           onToggleTheme={onToggleTheme}
+          onBack={onBack}
         />
         <main className="mx-auto max-w-3xl px-4 pt-28 pb-20">
           <h1 className="mb-3 text-2xl font-bold text-zinc-900 dark:text-white">
@@ -153,6 +231,7 @@ export function HighlightDetailClient({ slug }: { slug: string }) {
         isDark={isDark}
         onToggleLang={onToggleLang}
         onToggleTheme={onToggleTheme}
+        onBack={onBack}
       />
 
       <main className="mx-auto max-w-3xl px-4 pt-28 pb-20">
@@ -186,15 +265,34 @@ export function HighlightDetailClient({ slug }: { slug: string }) {
           ))}
         </div>
 
-        {/* ── Footer: back to home ── */}
-        <div className="mt-16 border-t border-zinc-200 pt-8 dark:border-zinc-800">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-600 transition-colors hover:text-accent-500 dark:text-zinc-400"
+        {/* ── Footer: 좌측 돌아가기 · 우측 다음 하이라이트 ── */}
+        <div className="mt-16 flex flex-wrap items-center justify-between gap-6 border-t border-zinc-200 pt-8 dark:border-zinc-800">
+          <button
+            type="button"
+            onClick={onBack}
+            className="inline-flex cursor-pointer items-center gap-1.5 text-sm font-medium text-zinc-600 transition-colors hover:text-accent-500 dark:text-zinc-400"
           >
             <ArrowLeftIcon />
             {COPY[lang].back}
-          </Link>
+          </button>
+
+          {nextHighlight && (
+            <button
+              type="button"
+              onClick={onNext}
+              className="group inline-flex max-w-[60%] cursor-pointer items-center gap-3 text-right transition-colors"
+            >
+              <span className="flex min-w-0 flex-col items-end">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                  {COPY[lang].next}
+                </span>
+                <span className="truncate text-sm font-medium text-zinc-600 transition-colors group-hover:text-accent-500 dark:text-zinc-400">
+                  {nextHighlight.title}
+                </span>
+              </span>
+              <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 text-zinc-400 transition-all group-hover:translate-x-0.5 group-hover:text-accent-500" />
+            </button>
+          )}
         </div>
       </main>
     </div>
