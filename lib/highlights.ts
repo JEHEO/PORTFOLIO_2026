@@ -57,7 +57,7 @@ export const HIGHLIGHTS: Highlight[] = [
           heading: "접근",
           body: [
             "RN Upgrade Helper 도구로 0.70 → 0.76 구간을 작은 버전 단위로 쪼개, 파일별 변경 체크리스트를 만들어 순차 적용",
-            "본 배포 전 스테이징 환경에서 로그인 · 결제 · 박스 오픈 같은 핵심 흐름을 회귀 테스트한 뒤 단계적으로 유저에게 롤아웃",
+            "본 배포 전 스테이징 환경에서 로그인 · 결제 · 박스 오픈 같은 핵심 흐름을 회귀 테스트한 뒤 단계적으로 사용자에게 롤아웃",
             "상태바 영역 문제는 react-native-safe-area-context 의 useSafeAreaInsets 훅으로 상단/하단 여백 값을 받아, 모든 화면에 일관되게 적용해 해결",
             "iOS 팝업 문제는 이전 팝업의 onDismiss 콜백 안에서 다음 팝업을 열도록 순서를 바꿔, 타이밍 경합을 원천 차단",
           ],
@@ -66,7 +66,7 @@ export const HIGHLIGHTS: Highlight[] = [
           heading: "결과",
           body: [
             "Play Store 16KB ELF alignment 정책 통과 — 앱 정식 재업로드 성공",
-            "크래시율이 기존과 동일하게 유지되며 전체 유저 롤아웃 완료",
+            "크래시율이 기존과 동일하게 유지된 상태로 전체 사용자 롤아웃 완료",
           ],
         },
         {
@@ -149,8 +149,8 @@ export const HIGHLIGHTS: Highlight[] = [
             "팀원과 함께 논의해 Atomic Design 5계층 구조(Atoms / Molecules / Organisms / Templates / Pages) 를 도입하고 분리 기준을 문서로 정리",
             "ESLint · Prettier · simple-import-sort · tailwindcss plugin 을 표준으로 묶어, 포맷 논쟁은 린터에 맡김",
             "Storybook 환경을 셋업해 Atom · Molecule 단위 컴포넌트의 격리 개발 기반을 마련 (현재 신규 프로젝트에서 본격 활용 준비 중)",
-            "PR 템플릿에 접근성 · 반응형 · 성능 체크리스트를 넣어 작성자와 리뷰어가 같은 기준으로 봄",
-            "격주로 코드 리뷰 회고를 돌려 규칙 자체를 팀이 함께 다듬도록",
+            "PR 템플릿에 접근성 · 반응형 · 성능 체크리스트를 넣어 작성자와 리뷰어가 같은 기준으로 보도록 함",
+            "격주로 코드 리뷰 회고를 돌려 규칙 자체를 팀이 함께 다듬는 구조 마련",
           ],
         },
         {
@@ -418,7 +418,7 @@ export const HIGHLIGHTS: Highlight[] = [
       title: "월간 이벤트 — CSS 3D · 인터랙티브 게임",
       meta: "2023 – 2025 · Bomulsen 월간 이벤트 · EJS · jQuery · CSS 3D",
       summary:
-        "앱 스토어 검수를 우회 하기 위해 백엔드 저장소에 EJS 로 분리한 월간 이벤트 페이지에서, 순수 CSS 3D transform 과 jQuery 기반 게임 로직으로 다이스 보드 · RPS 토너먼트 · 슬롯 머신 등 인터랙티브 게임을 라이브러리 의존 없이 직접 구현 했습니다.",
+        "앱 스토어 검수를 우회하기 위해 백엔드 저장소에 EJS 로 분리한 월간 이벤트 페이지에서, 순수 CSS 3D transform 과 jQuery 기반 게임 로직으로 다이스 보드 · RPS 토너먼트 · 슬롯 머신 등 인터랙티브 게임을 라이브러리 의존 없이 직접 구현했습니다.",
       sections: [
         {
           heading: "배경",
@@ -437,7 +437,7 @@ export const HIGHLIGHTS: Highlight[] = [
         {
           heading: "접근",
           body: [
-            "순수 CSS 3D 트랜스폼 — transform-style: preserve-3d 와 rotateX/Y/Z · translateZ 만으로 정육면체 다이스, 원통형 슬롯 머신, 보드 셀 토글을 라이브러리 없이 구현. 슬롯 반지름은 radius = iWidth / 2 / tan(π / total) 공식으로 계산",
+            "순수 CSS 3D 트랜스폼 — transform-style: preserve-3d 와 rotateX/Y/Z · translateZ 만으로 정육면체 다이스, 원통형 슬롯 머신, 보드 셀 토글을 라이브러리 없이 구현. 슬롯 머신은 CodePen 의 원통 회전 패턴을 참고해 프로젝트 환경에 맞춰 다듬어 적용",
             "min(Nvw, Nvh) 패턴을 써서 가로/세로 중 짧은 쪽에 맞춰 사이징 — 어떤 종횡비에서도 화면을 벗어나거나 잘리지 않도록 이중 제약",
             "env(safe-area-inset-top/bottom) 와 @supports not (constant(...)) fallback 을 함께 써서 iOS 노치와 Android 홈 인디케이터를 양쪽 모두 대응",
             "window.ReactNativeWebView.postMessage 로 게임 단계별 이벤트(webMessage: gold_choice/confirm/result, rspEnd: win/lose 등) 를 앱에 전달 → 앱은 받은 메시지로 사운드 · 햅틱 · 모달 닫기를 트리거",
@@ -484,7 +484,7 @@ export const HIGHLIGHTS: Highlight[] = [
         {
           heading: "Approach",
           body: [
-            "Pure CSS 3D transforms — `transform-style: preserve-3d` + `rotateX/Y/Z` + `translateZ` to build the dice cube, the cylindrical slot reel (`radius = iWidth / 2 / Math.tan(Math.PI / total)`), and toggling board cells, all without a library",
+            "Pure CSS 3D transforms — `transform-style: preserve-3d` + `rotateX/Y/Z` + `translateZ` to build the dice cube and toggling board cells; the cylindrical slot reel was adapted from a CodePen reference and tuned to the project context, all without a game library",
             "Responsive double-constraint — `min(Nvw, Nvh)` sizes to whichever axis is shorter so layouts never overflow regardless of aspect ratio",
             "Safe-area handling — `env(safe-area-inset-top/bottom)` with `@supports not (constant(...))` fallback covers iOS notches and Android home indicators",
             "Bidirectional RN messaging — `window.ReactNativeWebView.postMessage(JSON.stringify({...}))` dispatches staged events (`webMessage: gold_choice/confirm/result`, `rspEnd: win/lose`) to the app, which triggers sound, haptics, and modal close",

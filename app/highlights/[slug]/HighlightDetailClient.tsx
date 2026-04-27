@@ -274,8 +274,8 @@ export function HighlightDetailClient({ slug }: { slug: string }) {
                 <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
                   {COPY[lang].next}
                 </span>
-                {/* 한글 기준 8자 정도까지만 보이고 나머지는 말줄임 */}
-                <span className="block max-w-[7rem] truncate text-sm font-medium text-zinc-600 transition-colors group-hover:text-accent-500 dark:text-zinc-400">
+                {/* 모바일에서만 한글 기준 8자 정도까지 보이고 말줄임. sm 이상은 폭 제한 해제 */}
+                <span className="block max-w-[7rem] truncate text-sm font-medium text-zinc-600 transition-colors group-hover:text-accent-500 sm:max-w-none sm:overflow-visible sm:whitespace-normal dark:text-zinc-400">
                   {nextHighlight.title}
                 </span>
               </span>

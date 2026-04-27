@@ -1,7 +1,7 @@
 /**
  * 포트폴리오 전역 번역본 (`ko` / `en`).
  *
- * - 홈 페이지와 상세 페이지 모두이 모듈을 단일 소스로 사용합니다.
+ * - 홈 페이지와 상세 페이지 모두 이 모듈을 단일 소스로 사용합니다.
  * - 신규 번역 키는 반드시 `Translation` 타입(`lib/types/portfolio.ts`)에 먼저 선언한 뒤 추가하세요.
  * - `highlights[i].slug` 는 `lib/highlights.ts` 의 HIGHLIGHTS 배열 slug 와 반드시 일치해야 합니다.
  *
@@ -185,9 +185,9 @@ export const T: Record<Lang, Translation> = {
       "UI를 Atoms → Molecules → Organisms → Templates → Pages 5계층으로 분리해 재사용성과 테스트 용이성을 확보했습니다.",
     hooksDesc:
       "비즈니스 로직을 Custom Hook으로 분리해 컴포넌트는 UI 렌더링에만 집중합니다.",
-    performanceLabel: "왜이 라이브러리? — 기술 선택 근거 및 성능 최적화",
+    performanceLabel: "왜 이 라이브러리? — 기술 선택 근거 및 성능 최적화",
     commitConventionLabel: "Commit Convention",
-    commitConventionDesc: "feat · fix · chore  타입을 일관되게 적용합니다.",
+    commitConventionDesc: "feat · fix · chore 타입을 일관되게 적용합니다.",
     skillsLabel: "Technical Skills",
     portfolioLabel: "2020 Portfolio",
     portfolioDesc: "초기 커리어 작업물 — HTML/CSS/JS 기반 정적 포트폴리오 (2020)",
@@ -294,7 +294,7 @@ export const T: Record<Lang, Translation> = {
           title: "보물선 — 리뉴얼 및 유지보수",
           tag: "프론트 메인 담당",
           sub: "국내 랜덤박스 플랫폼",
-          period: "2021.03 — 재직 중 (2023.11 전면 리뉴얼 · 이후 유지보수 지속)",
+          period: "2021.03 — 진행 중 (2023.11 전면 리뉴얼 · 이후 유지보수 지속)",
           details: [
             "jQuery 기반 노후 서비스를 React Native로 전면 리뉴얼",
             "누적 회원 13.7만 규모 서비스를 사용자 영향 없이 운영 · 회원 수 7,700% 증가 기간 동안 프론트엔드 담당",
