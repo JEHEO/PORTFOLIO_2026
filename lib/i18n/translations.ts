@@ -66,7 +66,7 @@ export const T: Record<Lang, Translation> = {
             emphasis: true,
           },
           {
-            text: "으로 다룹니다. Figma 시안을 단순 구현하는 게 아니라 디자인 시스템·토큰·상호작용 단계에서 함께 의사결정하고, ",
+            text: "으로 다룹니다. 디자인 시안을 단순 구현하는 게 아니라 시안 리뷰 · 디자인 시스템 · 상호작용 단계부터 함께 의사결정하고, ",
           },
           {
             text: "관리자 페이지는 UI/UX 디자인부터 구현까지 1인 전담",
@@ -82,13 +82,13 @@ export const T: Record<Lang, Translation> = {
     impactMetrics: [
       {
         value: "137K",
-        label: "무중단 운영 · 유지보수",
-        hint: "보물선 MAU · 7,700% 회원 성장기 전 과정",
+        label: "운영 · 유지보수",
+        hint: "보물선 누적 회원 · 7,700% 회원 증가 기간 동안 프론트엔드 담당",
       },
       {
         value: "0.70 → 0.76",
         label: "React Native 메이저 버전업",
-        hint: "Google Play 16KB 정책 대응 · 약 4주",
+        hint: "Google Play 16KB 정책 대응 · 약 2개월",
       },
       {
         value: "70+ 페이지",
@@ -96,9 +96,9 @@ export const T: Record<Lang, Translation> = {
         hint: "GOPANG · 사용자 40+ · 관리자 30+ 페이지",
       },
       {
-        value: "~30%",
-        label: "리뷰 사이클 체감 단축",
-        hint: "Atomic Design + 린터 자동화 · 체감 측정 (자체 평가)",
+        value: "10+ 종",
+        label: "인터랙티브 이벤트 게임",
+        hint: "보물선 월간 이벤트 · CSS 3D · 다이스/RPS/슬롯 등 직접 구현",
       },
     ],
     highlightsLabel: "Expertise & Leadership",
@@ -226,7 +226,7 @@ export const T: Record<Lang, Translation> = {
         note: "출판·편집 디자인 실무",
       },
       description:
-        "리뉴얼 및 유지보수 담당, 신규 프로젝트 제작, 3인 프론트엔드 팀의 파트 리더 역할 수행, 주니어 멘토링 및 프로젝트 일정 관리",
+        "리뉴얼 및 유지보수 담당, 신규 프로젝트 제작, 프로젝트 일정 관리. 후임이 합류한 시기에는 3인 프론트엔드 팀의 파트 리더 역할로 멘토링까지 수행했습니다.",
       projects: [
         {
           title: "Next.js 기반 신규 프로젝트",
@@ -234,11 +234,11 @@ export const T: Record<Lang, Translation> = {
           sub: "차세대 웹 서비스 구축",
           period: "2026.01 — 진행 중",
           details: [
-            "Atomic Design Pattern 도입으로 코드 유지보수성 및 일관성 확보",
-            "Zustand · TanStack Query 도입으로 fetch · 로딩 · 에러 처리를 추상화 — 컴포넌트는 UI 렌더링에만 집중, 자동 캐싱으로 사용자 체감 속도 개선",
-            "Next.js App Router 기반 아키텍처 설계 및 SSR 기반 사용자 경험 최적화",
-            "GitHub Actions 기반 CI/CD 파이프라인 구축 — lint · type check · build 자동화 및 Vercel 자동 배포 연동",
-            "Claude Code 기반 AI 페어 프로그래밍 워크플로우 정착 — CLAUDE.md로 프로젝트 컨텍스트 문서화, 커스텀 커맨드(/review · /lint-check)와 코드 생성 템플릿 5종(Component · Hook · Screen · ViewModel · RouteHandler)으로 컨벤션 자동 준수 · 리뷰 · 린트까지 에이전트가 일관되게 수행",
+            "팀원과 함께 논의해 Atomic Design Pattern 도입 — 코드 유지보수성 및 일관성 확보",
+            "Zustand · TanStack Query 도입으로 fetch · 로딩 · 에러 처리를 추상화하고 캐싱 / 자동 리페치를 표준화 — 컴포넌트는 UI 렌더링에만 집중",
+            "Next.js App Router 기반 아키텍처 · 폴더 구조 설계",
+            "Bitbucket Pipelines 기반 CI/CD 파이프라인 구축 — push 시 lint · type check · build 자동화 후 Vercel CLI 로 자동 배포",
+            "회사 도입 Claude Code 기반 AI 페어 프로그래밍 워크플로우 활용 — CLAUDE.md로 프로젝트 컨텍스트 문서화, 커스텀 커맨드(/review · /lint-check)와 코드 생성 템플릿 5종(Component · Hook · Screen · ViewModel · RouteHandler) 보유, 컨벤션 준수·리뷰·린트를 에이전트와 함께 수행",
           ],
           hasDetail: true,
           screenshots: [
@@ -297,14 +297,14 @@ export const T: Record<Lang, Translation> = {
           period: "2021.03 — 재직 중 (2023.11 전면 리뉴얼 · 이후 유지보수 지속)",
           details: [
             "jQuery 기반 노후 서비스를 React Native로 전면 리뉴얼",
-            "사용자 13.7만 명 규모 서비스 무중단 운영 · 회원 수 7,700% 증가 기간 동안 프론트엔드 담당",
+            "누적 회원 13.7만 규모 서비스를 사용자 영향 없이 운영 · 회원 수 7,700% 증가 기간 동안 프론트엔드 담당",
             "Google Play 16KB 정책 준수를 위한 RN v0.70 → v0.76 업그레이드 및 OS 호환성 확보",
-            "RESTful API 기반 서버-클라이언트 통신 구현 — 공통 HTTP 클라이언트로 인증 토큰 · 파라미터 직렬화 · 응답 처리 · 토큰 스토리지 동기화 일원화",
+            "사내 공통 HTTP 클라이언트(인증 토큰 · 파라미터 직렬화 · 응답 처리 · 토큰 스토리지 동기화 일원화) 를 활용해 RESTful API 기반 서버-클라이언트 통신 구현",
             "보물함 화면 개발 — 탭·검색·필터·정렬·잠금 토글이 결합된 복합 리스트 UI 및 페이지네이션 구현",
             "FlatList 가상 스크롤 + useCallback · React.memo · FastImage 조합으로 수백 개 아이템 무한스크롤 성능 유지",
-            "아이템 상태별 버튼 매트릭스 설계 — 배송·거래·분해·환급 액션 분기 처리",
+            "아이템 상태별 버튼 활성/문구/이동 분기 설계 — 배송·거래·분해·환급 4개 액션을 한 화면에서 일관되게 처리",
             "거래취소·포인트 환급 등 위험한 액션을 위한 공통 확인 모달 플로우 구현",
-            "월간 이벤트/프로모션 페이지 개발 — 앱 스토어 검수 없이 매달 새 이벤트를 즉시 배포할 수 있도록 백엔드 저장소에 EJS 템플릿으로 페이지 구성, 앱은 WebView로 띄워 반응형 UI 제공",
+            "월간 이벤트/프로모션 페이지 개발 — 백엔드 저장소(EJS 템플릿) + WebView 구조 위에서 매달 새 이벤트 페이지를 직접 작성, 반응형 UI 로 앱 스토어 검수 없이 즉시 배포",
             "이벤트 페이지에 순수 CSS 3D transform 기반 인터랙티브 게임 (다이스 보드 · RPS 토너먼트 · 슬롯 머신) 직접 구현, RN ↔ WebView postMessage 로 게임 단계별 네이티브 양방향 연동",
             "관리자 페이지 개발 및 유지보수",
           ],
@@ -416,12 +416,12 @@ export const T: Record<Lang, Translation> = {
         },
         {
           title: "GOPANG — 신규 제작",
-          tag: "프론트 메인 담당",
+          tag: "단독 프론트 개발",
           sub: "인도네시아향 랜덤박스 웹 플랫폼",
           period:
             "2024.06 — 2025.10 (6개월 내 퍼블리싱 · 프론트 개발 완료 → 2025.02 출시, 이후 유지보수)",
           details: [
-            "보물선(React Native)의 서비스 구조를 기반으로, 프론트 메인 담당으로 인도네시아향 랜덤박스 React 웹앱을 신규 구축",
+            "보물선(React Native) 서비스 구조를 기반으로, 인도네시아향 랜덤박스 React 웹앱을 단독 신규 구축",
             "디자인 시안 퍼블리싱부터 React 컴포넌트 구현 · 상태 관리 · API 연동까지 프론트엔드 전 과정 1인 전담",
             "6개월 내 사용자 화면 40+ · 관리자 화면 30+ 총 70+ 페이지 단독 구축",
             "다양한 모바일 단말 · 해상도에서 일관된 경험을 제공하는 반응형 퍼블리싱 + 인도네시아 현지 사용자 맥락에 맞춘 UI/UX 설계",
@@ -472,7 +472,7 @@ export const T: Record<Lang, Translation> = {
         slug: "design-engineering-crosskill",
         title: "디자인-엔지니어링 크로스 스킬",
         description:
-          "디자인 커리어 배경이 프론트엔드 업무에 어떻게 녹아드는지 — Figma 프로토타입 · 디자인 시스템 · 1인 UI/UX 담당 경험을 중심으로 정리했습니다.",
+          "디자인 커리어 배경이 프론트엔드 업무에 어떻게 녹아드는지 — 시안 리뷰 · 디자인 시스템 · 관리자 페이지 1인 UI/UX 담당 경험을 중심으로 정리했습니다.",
         tags: ["Design", "Frontend", "Collaboration"],
       },
       {
@@ -493,7 +493,7 @@ export const T: Record<Lang, Translation> = {
         slug: "bomulsen-treasure-box",
         title: "보물함 화면 — 복합 상태 리스트 설계",
         description:
-          "탭 · 검색 · 필터 · 정렬 · 잠금 토글이 동시에 작동하는 단일 화면에서 11종 상태코드 × 타입코드 × 잠금 여부 버튼 매트릭스와 6종 모달을 하나의 패턴으로 설계했습니다.",
+          "탭 · 검색 · 필터 · 정렬 · 잠금 토글이 동시에 작동하는 단일 화면에서 11종 상태코드 × 타입코드 × 잠금 여부 조합에 따른 버튼 분기 로직과 6종 모달을 하나의 패턴으로 정리했습니다.",
         tags: ["Technical", "State Machine", "UX"],
       },
       {
@@ -558,7 +558,7 @@ export const T: Record<Lang, Translation> = {
             emphasis: true,
           },
           {
-            text: ". I don't just implement Figma mocks — I co-own the design system, tokens, and interaction spec, and I've ",
+            text: ". I don't just implement design mocks — I co-decide on design systems, component boundaries, and interaction specs from the review stage, and I've ",
           },
           {
             text: "owned full UI/UX end-to-end (design through implementation) for admin surfaces",
@@ -574,13 +574,13 @@ export const T: Record<Lang, Translation> = {
     impactMetrics: [
       {
         value: "137K",
-        label: "Zero-downtime ops & maintenance",
-        hint: "Bomulsen MAU · through a 7,700% member-growth period",
+        label: "Operations & maintenance",
+        hint: "Bomulsen registered members · frontend lead through a 7,700% member-growth period",
       },
       {
         value: "0.70 → 0.76",
         label: "React Native major upgrade",
-        hint: "Google Play 16KB policy · ~4 weeks",
+        hint: "Google Play 16KB policy · ~2 months",
       },
       {
         value: "70+ pages",
@@ -588,9 +588,9 @@ export const T: Record<Lang, Translation> = {
         hint: "GOPANG · 40+ user + 30+ admin pages",
       },
       {
-        value: "~30%",
-        label: "Review cycle perceived reduction",
-        hint: "Atomic Design + linter automation · self-reported by team",
+        value: "10+ games",
+        label: "Interactive event games",
+        hint: "Bomulsen monthly events · CSS 3D · dice / RPS / slot built from scratch",
       },
     ],
     highlightsLabel: "Expertise & Leadership",
@@ -719,7 +719,7 @@ export const T: Record<Lang, Translation> = {
         note: "Publishing / editorial design practice",
       },
       description:
-        "In charge of renewal & maintenance, new project development, acting tech lead of a 3-person frontend team, junior mentoring, and project scheduling.",
+        "Owns renewal & maintenance, new project development, and project scheduling. When juniors are on the team, also acts as tech lead of the 3-person frontend group and handles mentoring.",
       projects: [
         {
           title: "Next.js-based New Project",
@@ -727,11 +727,11 @@ export const T: Record<Lang, Translation> = {
           sub: "Next-generation web service",
           period: "Jan 2026 — Present",
           details: [
-            "Adopted Atomic Design Pattern to improve maintainability and consistency",
-            "Adopted Zustand and TanStack Query to abstract fetch · loading · error handling — components focus purely on UI rendering, and automatic caching improves perceived performance",
-            "Designed App Router architecture; optimized SSR user experience",
-            "Built a CI/CD pipeline with GitHub Actions — automated lint, type check, and build; integrated Vercel auto-deploy",
-            "Established a Claude Code-powered AI pair-programming workflow — documented project context in CLAUDE.md, defined custom commands (/review · /lint-check), and maintained 5 code-generation templates (Component · Hook · Screen · ViewModel · RouteHandler) so the agent consistently enforces conventions, performs reviews, and runs lint checks",
+            "Co-decided with the team to adopt the Atomic Design Pattern — improves maintainability and consistency",
+            "Adopted Zustand and TanStack Query to abstract fetch · loading · error handling and standardize caching / auto-refetch — components focus purely on UI rendering",
+            "Designed the App Router-based architecture and folder structure",
+            "Built a CI/CD pipeline on Bitbucket Pipelines — every push runs lint, type check, and build, then ships to Vercel via the Vercel CLI",
+            "Active user of the company-adopted Claude Code AI pair-programming workflow — documented project context in CLAUDE.md, defined custom commands (/review · /lint-check), and maintain 5 code-generation templates (Component · Hook · Screen · ViewModel · RouteHandler) so convention checks, reviews, and lint runs happen alongside the agent",
           ],
           hasDetail: true,
           screenshots: [
@@ -790,14 +790,14 @@ export const T: Record<Lang, Translation> = {
           period: "Mar 2021 — Present (Nov 2023 full rebuild · ongoing maintenance)",
           details: [
             "Fully migrated legacy jQuery service to React Native",
-            "Kept a 137K-user service running with zero downtime throughout a 7,700% member-growth period",
+            "Owned the frontend for a service with ~137K registered members through a 7,700% member-growth period, with no impact on end users",
             "Upgraded RN (v0.70 → v0.76) to meet Google Play 16KB policy; handled OS compatibility",
-            "Implemented RESTful API-based client-server integration — unified a shared HTTP client covering auth, parameter serialization, response handling, and auth-storage sync",
+            "Implemented RESTful API-based client-server integration on top of the in-house shared HTTP client (auth tokens, parameter serialization, response handling, auth-storage sync)",
             "Built the Treasure Box screen — a complex list UI combining tab, search, filter, sort, and a lock toggle with pagination",
             "Tuned scroll performance for hundreds-of-items infinite list — FlatList virtualization with useCallback · React.memo · FastImage to keep frames smooth",
-            "Designed an item-level button matrix branching Ship / Trade / Dismantle / Refund actions by state",
+            "Item-level button branching for Ship / Trade / Dismantle / Refund — 4 actions handled consistently on one screen",
             "Built a shared confirm-modal flow for irreversible actions like trade-cancel and point refund",
-            "Built monthly event / promo pages — placed EJS templates in the backend repo so each new event ships without an app-store review cycle, loaded via in-app WebView as responsive UIs",
+            "Built monthly event / promo pages on top of the existing backend EJS template + WebView setup — wrote each new responsive event page so it could ship without an app-store review cycle",
             "Built interactive games (dice board, RPS tournament, slot machine) directly in event pages with pure CSS 3D transforms — no game library — and wired stage-by-stage RN ↔ WebView postMessage for native-side effects",
             "Developed and maintained the admin dashboard",
           ],
@@ -909,12 +909,12 @@ export const T: Record<Lang, Translation> = {
         },
         {
           title: "GOPANG — New Build",
-          tag: "Frontend Lead",
+          tag: "Solo Frontend",
           sub: "Indonesian random-box web platform",
           period:
             "Jun 2024 — Oct 2025 (6-month publishing + frontend build → launched Feb 2025, ongoing maintenance)",
           details: [
-            "Built an Indonesian random-box React web app from scratch as frontend lead, adapting Bomulsen's (React Native) service patterns to a web context",
+            "Built the Indonesian random-box React web app from scratch as the only frontend engineer, adapting Bomulsen's (React Native) service patterns to a web context",
             "Sole frontend ownership across the full stack: design-mock publishing, React component implementation, state management, and API integration",
             "Delivered 70+ pages end-to-end in 6 months — 40+ user screens and 30+ admin screens, single-handed",
             "Responsive publishing for consistent experience across mobile devices and resolutions, with UI/UX tailored to the Indonesian market context",
@@ -965,7 +965,7 @@ export const T: Record<Lang, Translation> = {
         slug: "design-engineering-crosskill",
         title: "Design–Engineering Cross-Skill",
         description:
-          "How a design career shapes my frontend work — Figma prototyping, design systems, and solo UI/UX ownership for admin surfaces.",
+          "How a design career shapes my frontend work — design reviews, design systems, and solo UI/UX ownership for admin surfaces.",
         tags: ["Design", "Frontend", "Collaboration"],
       },
       {
@@ -986,7 +986,7 @@ export const T: Record<Lang, Translation> = {
         slug: "bomulsen-treasure-box",
         title: "Treasure Box Screen — Complex State List Design",
         description:
-          "Documented how I unified the 11-state × type-code × lock-flag button matrix and six distinct modals into one pattern on a screen where tab, search, filter, sort, and a lock toggle all operate at once.",
+          "Documented how I unified per-button enable/label/navigation rules across 11 states × type code × lock flag, and corralled six distinct modals into one pattern on a single screen where tab, search, filter, sort, and a lock toggle all operate at once.",
         tags: ["Technical", "State Machine", "UX"],
       },
       {

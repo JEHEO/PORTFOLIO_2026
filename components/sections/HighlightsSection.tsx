@@ -1,12 +1,6 @@
-/**
- * Expertise & Leadership 카드 리스트.
- *
- * - 각 카드는 번역본(`t.highlights[i].slug`) 을 통해 상세 페이지와 결합됩니다
- *   (index 기반 결합 제거).
- * - 카드 클릭 시 현재 `window.scrollY` 를 sessionStorage 에 저장.
- *   → 상세 페이지에서 "돌아가기" 로 홈에 돌아오면 `app/page.tsx` 가
- *     sessionStorage 값을 읽어 원래 스크롤 위치로 복원합니다.
- */
+// Expertise & Leadership 카드 리스트.
+// 카드는 번역본의 slug 로 상세 페이지와 매칭되고, 클릭 직전에 현재 스크롤 위치를
+// sessionStorage 에 적어둔다. 돌아갈 때 app/page.tsx 가 그 값을 읽어 위치를 복원함.
 
 "use client";
 
@@ -17,7 +11,7 @@ import { ArrowRightIcon } from "@/components/icons";
 import { Section, SectionTitle } from "@/components/ui/Section";
 import type { Translation } from "@/lib/types/portfolio";
 
-/** 홈 스크롤 위치 저장 키 — 상세 진입 시 save, 홈 복귀 시 restore. */
+// 홈 → 상세 → 홈 사이클에서 스크롤 위치를 들고 다닐 키
 export const HOME_SCROLL_KEY = "home-scroll-y";
 
 export function HighlightsSection({ t }: { t: Translation }) {
@@ -25,7 +19,7 @@ export function HighlightsSection({ t }: { t: Translation }) {
     try {
       sessionStorage.setItem(HOME_SCROLL_KEY, String(window.scrollY));
     } catch {
-      /* sessionStorage 불가 환경 (프라이빗 등) 은 무시 */
+      // 프라이빗 모드 등 sessionStorage 가 막힌 경우는 그냥 넘어감
     }
   };
 
@@ -40,7 +34,7 @@ export function HighlightsSection({ t }: { t: Translation }) {
             onClick={handleCardClick}
             className="group relative rounded-xl border border-zinc-200 p-5 transition-all hover:border-accent-500/50 hover:bg-accent-50/30 dark:border-zinc-800 dark:hover:bg-accent-900/10"
           >
-            {/* 자세히 보기 — hover 시에만 등장. absolute 로 띄워 평상시 공간 미점유 */}
+            {/* "자세히 보기" 는 hover 시에만 보이도록. absolute 라 평소엔 자리 안 차지함. */}
             <span className="pointer-events-none absolute top-5 right-5 inline-flex items-center text-[11px] font-medium text-accent-500 opacity-0 transition-opacity group-hover:opacity-100">
               {t.viewMore}
               <ArrowRightIcon className="ml-1 h-3 w-3" />

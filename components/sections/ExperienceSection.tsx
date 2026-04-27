@@ -1,9 +1,6 @@
-/**
- * Experience 섹션 — 회사 요약 카드 + 프로젝트 리스트.
- *
- * - 진행 중인 Next.js 프로젝트(`hasDetail: true`) 는 기본적으로 "상세 보기"
- *   디스클로저로 접혀 있습니다. Bomulsen 과의 시각적 무게 역전을 방지하기 위한 조치.
- */
+// Experience 섹션. 회사 요약 + 프로젝트 카드 리스트로 구성.
+// 진행 중인 Next.js 프로젝트는 hasDetail 플래그가 켜져 있으면 디스클로저로
+// 접어둔다. 그렇지 않으면 Bomulsen 카드와 시각적 무게가 역전돼버려서.
 
 import React from "react";
 
@@ -19,16 +16,9 @@ import { PROJECT_DETAIL } from "@/lib/data/project-detail";
 import type { Lang } from "@/lib/stores/uiStore";
 import type { Project, Translation } from "@/lib/types/portfolio";
 
-/**
- * 디스클로저 CTA summary — "클릭 가능" 어포던스 강화 버전.
- *
- * - 아이콘 + 타이틀 + 힌트 + 우측에 "탭 / 클릭" 손 아이콘.
- * - 평상시엔 손이 살짝 눌렀다 뗐다 반복하면서 "눌러보세요" 신호를 줌.
- * - hover 시 카드가 살짝 떠오르고(shadow + translate-y) 손 모션은 멈춤.
- * - 열린 상태(`group-open/detail`) 에서는 손 아이콘 모션 자동 정지.
- *
- * 반드시 `<details className="group/detail ...">` 내부의 `<summary>` 로만 사용.
- */
+// 디스클로저 CTA summary. 아이콘 + 타이틀 + 힌트 + 우측에 터치 타겟 아이콘이 붙고,
+// 카드 hover 시엔 살짝 떠오르며 sonar ping 이 차분한 breathing 으로 바뀐다.
+// <details class="group/detail ..."> 안의 <summary> 로만 써야 hover/open 변이가 동작.
 function DisclosureSummary({
   icon,
   label,
@@ -53,10 +43,8 @@ function DisclosureSummary({
           </p>
         </div>
       </div>
-      {/* 우측 어포던스 — 터치 타겟 아이콘 (중심 점 + 퍼지는 동심원 2개).
-          동심원 자체가 sonar ping 처럼 바깥으로 퍼지며 "여기를 누르세요" 신호를
-          준다. 별도 hand 나 ripple 오버레이가 필요없이 한 SVG 로 완결.
-          디스클로저가 열리면(=이미 클릭됨) 아이콘 전체가 페이드아웃. */}
+      {/* 우측 터치 타겟 아이콘. sonar ping 으로 클릭을 유도하고,
+          한 번 펼쳐진 뒤에는 페이드아웃돼 더 이상 흔들리지 않게 한다. */}
       <span className="text-accent-500 inline-flex shrink-0 transition-opacity duration-200 group-open/detail:opacity-0">
         <TouchTargetIcon className="h-[30px] w-[30px]" />
       </span>
@@ -147,7 +135,7 @@ function BranchStrategyDetail({ t }: { t: Translation }) {
         label={t.branchStrategyLabel}
         hint={t.branchStrategyHint}
         icon={
-          /* Git branch 아이콘 */
+          // git branch 아이콘
           <svg
             className="h-5 w-5"
             fill="none"
@@ -166,7 +154,7 @@ function BranchStrategyDetail({ t }: { t: Translation }) {
         }
       />
       <div className="mt-4 rounded-xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/30">
-        {/* 5단계 flow — 번호 chip + 설명 */}
+        {/* 단계별 번호 chip + 설명 */}
         <ol className="space-y-4">
           {t.branchStrategySteps.map((step, i) => (
             <li key={step.label} className="flex gap-4">
@@ -196,7 +184,7 @@ function NextJsProjectDetail({ t, lang }: { t: Translation; lang: Lang }) {
         label={t.projectDetailLabel}
         hint={t.projectDetailHint}
         icon={
-          /* Lightning bolt — "자세히/심층" 상징 */
+          // lightning bolt — "더 깊이 들어가는" 느낌의 아이콘
           <svg
             className="h-5 w-5"
             fill="none"
@@ -214,7 +202,7 @@ function NextJsProjectDetail({ t, lang }: { t: Translation; lang: Lang }) {
         }
       />
       <div className="mt-4 space-y-4 rounded-xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/30">
-        {/* Stats — CI/CD · Branches 2종. 증거 스크린샷은 Atomic Design · CI/CD 그룹에 포함됨 */}
+        {/* CI/CD · 브랜치 수 두 가지 stat. 증빙 스크린샷은 Atomic Design / CI/CD 그룹에 들어 있음. */}
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <StatBadge
             icon={<span aria-hidden>✅</span>}
@@ -261,7 +249,7 @@ export function ExperienceSection({
     <Section id="experience">
       <SectionTitle>{t.experienceLabel}</SectionTitle>
 
-      {/* Prior career — 현재 커리어 이전 타임라인 맥락 (세부사항 생략). 없으면 자동 숨김. */}
+      {/* 이전 커리어를 한 줄 정도로만 끼워둔 영역. 데이터가 없으면 통째로 숨김. */}
       {prior && (
         <div className="mb-8 border-l-2 border-zinc-300 pl-4 dark:border-zinc-700">
           <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
@@ -283,12 +271,9 @@ export function ExperienceSection({
         </div>
       )}
 
-      {/* 회사 요약 — 두 블록 구조:
-          (1) 회사 블록: 이름 + 한 줄 회사 설명 + 재직 기간
-          (2) 역할 블록: 내 직급 + 내 업무 설명
-          '회사 → 내 역할' 논리 순서로 읽히도록 분리. */}
+      {/* 회사 요약은 "회사 정보" → "내 역할" 두 단으로 나눠서 읽기 쉽게. */}
       <div className="mb-10">
-        {/* (1) 회사 블록 */}
+        {/* 회사 블록 */}
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h3 className="text-lg font-bold text-zinc-900 dark:text-white">
             {t.experience.company}
@@ -303,7 +288,7 @@ export function ExperienceSection({
           </p>
         )}
 
-        {/* (2) 역할 블록 */}
+        {/* 내 역할 블록 */}
         <div className="mt-5">
           <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
             {t.experience.position}

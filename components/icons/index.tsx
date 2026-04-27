@@ -1,7 +1,4 @@
-/**
- * 페이지 전반에서 사용하는 라인 아이콘 모음.
- * - 외부 아이콘 라이브러리를 쓰지 않고 SVG 한 파일로 유지합니다.
- */
+// 사이트 전반에서 쓰는 라인 아이콘. 외부 라이브러리 없이 한 파일에 정리.
 
 import React from "react";
 
@@ -134,7 +131,7 @@ export const CertificateIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-// ─── Highlight 상세 페이지의 섹션 헤딩 아이콘 (배경/문제/접근/결과/회고) ──────
+// Highlight 상세 페이지의 섹션 헤딩에 붙는 아이콘들 (배경/문제/접근/결과/회고).
 
 export const ContextIcon = ({ className }: { className?: string }) => (
   <svg
@@ -221,15 +218,10 @@ export const TakeawayIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-// ─── CTA 디스클로저용 "터치 타겟" 아이콘 ─────────────────────────────────────
-//
-// 중심 점 + 바깥으로 퍼지는 2개 동심원의 sonar ping 모양. Experience 섹션의
-// "상세 스택/브랜치 전략" 카드에서 어포던스로 사용합니다.
-//
-// - 중심 dot 은 정적 (탭 포인트 = 이 자리를 누르세요).
-// - 2개의 `touch-ring` 은 `globals.css` 에서 scale + opacity 로
-//   바깥쪽으로 퍼지며 사라지는 애니메이션 (sonar 느낌) 을 가집니다.
-// - 두 번째 ring 은 animation-delay 로 지연돼 ping 이 연달아 터지는 효과.
+// Experience 섹션의 "상세 스택 / 브랜치 전략" CTA 카드에 쓰는 터치 타겟 아이콘.
+// 중심 dot 은 그대로 두고, 두 개의 ring 이 바깥으로 퍼지면서 sonar ping 느낌을 준다.
+// ring 애니메이션은 globals.css 에 정의되어 있고, 두 번째 ring 만 animation-delay
+// 를 줘서 박자를 살짝 어긋내 더블-핑처럼 보이게 했음.
 
 export const TouchTargetIcon = ({ className }: { className?: string }) => (
   <svg
@@ -241,11 +233,10 @@ export const TouchTargetIcon = ({ className }: { className?: string }) => (
     overflow="visible"
     aria-hidden
   >
-    {/* 중심 탭 포인트 — 평상시 정적, hover 시 살짝 커짐 */}
+    {/* 중심 dot — hover 시에만 살짝 커짐 */}
     <circle cx="12" cy="12" r="3" fill="currentColor" className="touch-dot" />
-    {/* 퍼지는 ring 1 — 바로 시작 */}
     <circle cx="12" cy="12" r="8" className="touch-ring" />
-    {/* 퍼지는 ring 2 — 지연 시작으로 double-ping */}
+    {/* 두 번째 ring 은 한 박자 늦게 퍼져서 ping 이 두 번 터지는 효과 */}
     <circle
       cx="12"
       cy="12"

@@ -19,11 +19,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-/**
- * Instrument Serif — 모던 디스플레이 serif (2023+ 트렌드).
- * 인트로 히어로의 커리어 경로처럼 "엘레강트 액센트" 용도로만 사용.
- * 본문은 Geist sans 유지.
- */
+// Instrument Serif 는 인트로의 커리어 경로처럼 살짝 우아하게 강조하고 싶을 때만.
+// 본문은 그대로 Geist sans.
 const instrumentSerif = Instrument_Serif({
   variable: "--font-serif-display",
   subsets: ["latin"],
@@ -31,17 +28,11 @@ const instrumentSerif = Instrument_Serif({
   style: ["normal", "italic"],
 });
 
-/**
- * 사이트 공통 메타데이터.
- * - title / description 은 검색 · OG · Twitter 카드 에서 공통 사용됩니다.
- * - `metadataBase` 는 OG/Twitter 이미지 경로를 절대 URL 로 풀 때 쓰입니다.
- *   ⚠️ basePath(`/PORTFOLIO_2026`) 를 여기 포함시키면 Next.js 가 이미 basePath
- *      를 붙인 이미지 경로 앞에 또 덧붙여서 `/PORTFOLIO_2026/PORTFOLIO_2026/...`
- *      중복이 발생합니다. 그래서 여기는 **루트 도메인까지만** 적고, basePath 는
- *      `next.config.ts` 와 개별 경로에서만 한 번씩 붙도록 분리합니다.
- * - 파비콘/OG 이미지는 `app/icon.*` · `app/opengraph-image.*` 규약 파일로
- *   자동 인식되므로 여기서 별도 설정할 필요 없음.
- */
+// 사이트 공통 메타데이터. title/description 은 검색·OG·트위터 카드에서 공통으로 씀.
+// metadataBase 에 basePath(/PORTFOLIO_2026) 를 같이 적으면 OG 이미지 URL 에
+// /PORTFOLIO_2026 가 두 번 붙어버려서, 여기는 도메인까지만. basePath 는
+// next.config.ts 쪽에서만 한 번 붙도록 분리해놨음.
+// 파비콘/OG 이미지는 app/icon.* 와 app/opengraph-image.* 규약 파일이 자동으로 잡아줌.
 const SITE_TITLE = "허정은 — Frontend Developer Portfolio";
 const SITE_DESC =
   "디자이너 출신 프론트엔드 리더. 감각과 구현력을 함께 만들어내는 프론트엔드 — 허정은의 포트폴리오.";
@@ -64,14 +55,9 @@ export const metadata: Metadata = {
   },
 };
 
-/**
- * FOUC 방지 스크립트.
- *
- * - hydration 전에 localStorage / prefers-color-scheme 을 동기적으로 읽어
- *   `<html>` 에 `.dark` 클래스와 `lang` 속성을 먼저 반영합니다.
- * - 클라이언트 uiStore 와 동일한 키(`theme`, `lang`) 를 사용하므로
- *   hydration 이후 값이 튀지 않습니다.
- */
+// hydration 전에 localStorage / prefers-color-scheme 를 읽어서 <html> 에 .dark 와
+// lang 을 미리 박아둠. 클라이언트 uiStore 와 키(theme, lang) 가 같아서 hydration
+// 이후에도 값이 튀지 않음. 이 한 줄짜리 인라인 스크립트가 FOUC 를 막아줌.
 const UI_INIT_SCRIPT = `
 (function () {
   try {

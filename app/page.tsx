@@ -1,14 +1,8 @@
 "use client";
 
-/**
- * 홈 페이지 — 섹션 조립 레이어.
- *
- * - 상세 구현은 `components/sections/` 하위 파일로 분리되어 있습니다.
- *   이 파일의 책임은 "언어/테마 상태 구독 + 섹션 순서 결정" 뿐입니다.
- * - 섹션 순서: About → Impact → Expertise → Experience → Code Showcase
- *   → Education → Certifications → Skills → 2020 Portfolio → Contact
- *   "누구인가 → 무엇을 했나 → 어떻게 구현했나 → 정규 자격 → 스킬" 흐름.
- */
+// 홈. 실제 콘텐츠는 components/sections/ 아래 파일들로 나눠놨고,
+// 여기서는 언어/테마만 가져와서 섹션 순서대로 끼워 맞추는 역할.
+// 흐름: 누구인가 → 무엇을 했나 → 어떻게 구현했나 → 정규 자격 → 스킬.
 
 import React from "react";
 
@@ -21,7 +15,8 @@ import { ContactSection } from "@/components/sections/ContactSection";
 import { EducationSection } from "@/components/sections/EducationSection";
 import { ExperienceSection } from "@/components/sections/ExperienceSection";
 import { HeaderSection } from "@/components/sections/HeaderSection";
-// import { IntroSection } from "@/components/sections/IntroSection"; // 인트로 섹션 임시 비활성
+// IntroSection 은 임시로 빼둔 상태
+// import { IntroSection } from "@/components/sections/IntroSection";
 import {
   HighlightsSection,
   HOME_SCROLL_KEY,
@@ -46,15 +41,11 @@ export default function Home() {
 
   const t = T[lang];
 
-  /**
-   * 상세 페이지에서 "돌아가기" 로 홈에 돌아왔을 때 스크롤 위치 복원.
-   *
-   * - `HighlightsSection` 이 카드 클릭 시 `sessionStorage` 에 저장해둔
-   *   `window.scrollY` 값을 마운트 직후 읽어 그 위치로 스크롤합니다.
-   * - Next.js 의 기본 동작은 push 시 맨 위로 이동하므로, 한 번의 rAF 로
-   *   레이아웃이 완료된 뒤 scrollTo 를 호출합니다.
-   * - 복원 후에는 키를 제거해 새로고침 · 재진입 시 혼선을 방지합니다.
-   */
+  // 하이라이트 상세에서 돌아왔을 때 스크롤 위치를 그대로 복원.
+  // HighlightsSection 이 카드 클릭 시점에 sessionStorage 로 위치를 저장해두고,
+  // 여기서 마운트되자마자 그 값을 읽어서 스크롤한다. rAF 두 번을 거치는 건
+  // 콘텐츠가 다 그려지기 전에 scrollTo 를 호출하면 최대 스크롤 가능 지점까지만
+  // 가버리기 때문.
   React.useEffect(() => {
     try {
       const saved = sessionStorage.getItem(HOME_SCROLL_KEY);
@@ -62,15 +53,13 @@ export default function Home() {
       const y = parseInt(saved, 10);
       sessionStorage.removeItem(HOME_SCROLL_KEY);
       if (Number.isNaN(y)) return;
-      // 레이아웃이 그려진 다음 프레임에 스크롤 — 콘텐츠 높이가 확보되기 전에
-      // scrollTo 를 호출하면 최대 스크롤 가능 지점까지만 이동하기 때문.
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           window.scrollTo(0, y);
         });
       });
     } catch {
-      /* sessionStorage 불가 환경은 무시 */
+      // 프라이빗 모드 등 sessionStorage 가 막힌 환경은 그냥 넘어감
     }
   }, []);
 

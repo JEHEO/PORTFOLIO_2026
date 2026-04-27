@@ -36,30 +36,29 @@ export const HIGHLIGHTS: Highlight[] = [
     tags: ["Technical", "Problem Solving"],
     ko: {
       title: "React Native 0.76 업그레이드 트러블슈팅",
-      meta: "2025 · 약 4주 · Bomulsen (React Native · Hermes)",
+      meta: "2025 · 약 2개월 · Bomulsen (React Native · Hermes)",
       summary:
-        "Google Play 의 새 16KB 정책에 맞추기 위해 React Native 를 0.70 에서 0.76 으로 업그레이드했습니다. 13.7만 명이 매일 쓰는 서비스를 멈춤 없이 롤아웃한 프로젝트입니다.",
+        "Google Play 의 새 16KB 정책에 맞추기 위해 React Native 를 0.70 에서 0.76 으로 업그레이드했습니다. 누적 회원 13.7만 규모 서비스를 사용자 영향 없이 단계적으로 롤아웃한 프로젝트입니다.",
       sections: [
         {
           heading: "배경",
-          body: "2025년 하반기부터 Google Play 는 새로 올라오는 앱에 '16KB 페이지 정렬' 이라는 조건을 요구하기 시작했습니다. 정책을 통과하지 못하면 앱을 더 이상 업데이트할 수 없어 대응이 시급했어요. 보물선은 네이티브 라이브러리를 많이 쓰는 RN 0.70 기반이었고 매일 13.7만 명이 사용 중이었기 때문에, 정책 통과뿐 아니라 기존 유저의 서비스 안정성까지 함께 지켜야 하는 상황이었습니다.",
+          body: "2025년 하반기부터 Google Play 는 새로 올라오는 앱에 '16KB 페이지 정렬' 이라는 조건을 요구하기 시작했습니다. 정책을 통과하지 못하면 앱을 더 이상 업데이트할 수 없어 대응이 시급했어요. 보물선은 네이티브 라이브러리를 많이 쓰는 RN 0.70 기반이었고 누적 회원이 13.7만 규모였기 때문에, 정책 통과뿐 아니라 기존 사용자의 서비스 안정성까지 함께 지켜야 하는 상황이었습니다.",
         },
         {
           heading: "문제 정의",
           body: [
             "기존에 쓰던 서드파티 라이브러리 일부가 새 RN 버전과 맞지 않아 빌드 또는 실행 중에 에러가 났음",
             "RN 0.71부터 0.76까지 쌓여 있는 Gradle · Xcode 빌드 설정 변경을 한 번에 흡수해야 했음",
-            "상단 상태바·하단 홈 인디케이터 영역까지 콘텐츠가 넘쳐서 안전 영역(safe area) 이 깨지는 회귀 버그 발생",
             "iOS 에서 팝업을 닫자마자 다음 팝업을 열면, 두 번째 팝업이 렌더되지 않는 타이밍 문제",
+            "(추가 개선) 상단 상태바·하단 홈 인디케이터 영역까지 콘텐츠가 넘쳐 표시되던 기존 이슈를 함께 정리",
           ],
         },
         {
           heading: "접근",
           body: [
             "RN Upgrade Helper 도구로 0.70 → 0.76 구간을 작은 버전 단위로 쪼개, 파일별 변경 체크리스트를 만들어 순차 적용",
-            "호환 안 되는 라이브러리는 patch-package 로 임시 수정해 당장 돌아가게 하고, 라이브러리 저장소에 이슈를 등록해 정식 수정을 요청",
             "본 배포 전 스테이징 환경에서 로그인 · 결제 · 박스 오픈 같은 핵심 흐름을 회귀 테스트한 뒤 단계적으로 유저에게 롤아웃",
-            "안전 영역 문제는 react-native-safe-area-context 의 useSafeAreaInsets 훅으로 상단/하단 여백 값을 받아, 모든 화면에 일관되게 적용해 해결",
+            "상태바 영역 문제는 react-native-safe-area-context 의 useSafeAreaInsets 훅으로 상단/하단 여백 값을 받아, 모든 화면에 일관되게 적용해 해결",
             "iOS 팝업 문제는 이전 팝업의 onDismiss 콜백 안에서 다음 팝업을 열도록 순서를 바꿔, 타이밍 경합을 원천 차단",
           ],
         },
@@ -78,28 +77,27 @@ export const HIGHLIGHTS: Highlight[] = [
     },
     en: {
       title: "React Native 0.76 Upgrade Troubleshooting",
-      meta: "2025 · ~4 weeks · Bomulsen (React Native · Hermes)",
+      meta: "2025 · ~2 months · Bomulsen (React Native · Hermes)",
       summary:
-        "Led the RN 0.70 → 0.76 migration to comply with Google Play's 16KB alignment policy, rolling it out with zero downtime to a 137K MAU service.",
+        "Led the RN 0.70 → 0.76 migration to comply with Google Play's 16KB alignment policy, rolling it out gradually to a 137K-member service with no impact on end users.",
       sections: [
         {
           heading: "Context",
-          body: "In late 2025, Google Play started requiring 16KB page alignment for newly uploaded apps. Bomulsen was an RN 0.70 service with heavy native dependencies and 137K active users, so we had to satisfy the policy and preserve stability at the same time.",
+          body: "In late 2025, Google Play started requiring 16KB page alignment for newly uploaded apps. Bomulsen was an RN 0.70 service with heavy native dependencies and ~137K registered members, so we had to satisfy the policy and preserve stability at the same time.",
         },
         {
           heading: "Problem",
           body: [
             "Third-party library compatibility — handling libraries that broke at build or runtime under the new RN version",
             "Absorb accumulated Gradle / Xcode build config changes between 0.71 and 0.76",
-            "Regression where content overflowed into the status bar and home indicator areas, breaking the safe-area layout",
             "On iOS, opening a second Modal immediately after the previous one closed caused the second popup to fail to render (stacking timing race)",
+            "(Adjacent fix) Cleaned up a pre-existing layout issue where content overflowed into the status bar and home indicator areas",
           ],
         },
         {
           heading: "Approach",
           body: [
             "Broke the 0.70 → 0.76 jump into step-wise diffs using RN Upgrade Helper and a per-file checklist",
-            "Applied temporary fixes via patch-package for incompatible libs and reported upstream",
             "Ran critical user-flow regression tests (login · payment · box open) on staging, then rolled out in phases",
             "Safe-area regression — adopted `react-native-safe-area-context`'s `useSafeAreaInsets` consistently across every root screen, using the top/bottom inset values to eliminate status-bar and home-indicator overlap",
             "iOS chained-popup bug — orchestrated consecutive Modals by opening the next one inside the previous one's `onDismiss` callback, resolving the stacking timing race",
@@ -148,9 +146,9 @@ export const HIGHLIGHTS: Highlight[] = [
         {
           heading: "접근 · 사람 레이어",
           body: [
-            "Atomic Design 5계층 구조(Atoms / Molecules / Organisms / Templates / Pages) 를 도입하고 분리 기준을 문서로 정리",
+            "팀원과 함께 논의해 Atomic Design 5계층 구조(Atoms / Molecules / Organisms / Templates / Pages) 를 도입하고 분리 기준을 문서로 정리",
             "ESLint · Prettier · simple-import-sort · tailwindcss plugin 을 표준으로 묶어, 포맷 논쟁은 린터에 맡김",
-            "Storybook 으로 Atom · Molecule 단위를 격리 개발 — 다른 화면에 영향 없이 UI 만 따로 바꿀 수 있게",
+            "Storybook 환경을 셋업해 Atom · Molecule 단위 컴포넌트의 격리 개발 기반을 마련 (현재 신규 프로젝트에서 본격 활용 준비 중)",
             "PR 템플릿에 접근성 · 반응형 · 성능 체크리스트를 넣어 작성자와 리뷰어가 같은 기준으로 봄",
             "격주로 코드 리뷰 회고를 돌려 규칙 자체를 팀이 함께 다듬도록",
           ],
@@ -168,11 +166,9 @@ export const HIGHLIGHTS: Highlight[] = [
         {
           heading: "결과",
           body: [
-            "리뷰 사이클 평균 시간이 체감상 약 30% 단축 (팀 내 자체 평가)",
-            "신규 입사자가 첫 PR 을 머지하기까지의 기간이 줄고, 중복 컴포넌트도 감소",
+            "리뷰 사이클이 체감상 빨라짐 — 팀 안에서 '같은 기준' 으로 본다는 합의가 생김",
             "리뷰 단계에서 '스타일 지적' 이 줄어 본질적인 설계 논의에 시간을 쓸 수 있게 됨",
             "린트 에러로 인한 빌드 실패를 사전에 차단",
-            "이 포트폴리오 자체도 같은 워크플로우로 유지 중 — 프로세스를 스스로 증명",
           ],
         },
         {
@@ -205,9 +201,9 @@ export const HIGHLIGHTS: Highlight[] = [
         {
           heading: "Approach · Human layer",
           body: [
-            "Adopted a 5-layer Atomic Design structure (Atoms / Molecules / Organisms / Templates / Pages) and documented the boundaries",
+            "Co-decided with the team to adopt a 5-layer Atomic Design structure (Atoms / Molecules / Organisms / Templates / Pages) and documented the boundaries",
             "Standardized ESLint · Prettier · simple-import-sort · tailwindcss plugin to delegate formatting debates to the linter",
-            "Used Storybook for isolated Atom / Molecule development — UI changes without side effects",
+            "Set up Storybook to enable isolated Atom / Molecule development (foundation in place; full adoption underway in the current Next.js project)",
             "Added accessibility / responsive / performance checklists to the PR template so reviewer and author share the same bar",
             "Held biweekly review retros to let the team iterate on the rules themselves",
           ],
@@ -225,11 +221,9 @@ export const HIGHLIGHTS: Highlight[] = [
         {
           heading: "Result",
           body: [
-            "~30% perceived reduction in average review cycle time (self-reported by team)",
-            "Shorter time-to-first-merged-PR for new hires · fewer duplicate components",
+            "Review cycles felt faster — the team reached a shared sense of 'we're judging by the same bar'",
             "Fewer style / structure nits in review — more room for real design discussion",
             "Lint errors caught before they broke the build",
-            "This portfolio itself is maintained with the same workflow — the process proves itself",
           ],
         },
         {
@@ -269,7 +263,7 @@ export const HIGHLIGHTS: Highlight[] = [
           heading: "접근",
           body: [
             "탭 · 검색 · 필터 · 정렬 · 잠금 값을 한 개의 fetch 쿼리 파라미터로 모으고, 리스트 상태 리셋은 listResetAction 한 곳에서만 일어나도록 정리 — '지금 리스트가 어떤 조건으로 그려지는지' 를 코드 한 지점에서 읽을 수 있게 함",
-            "state_code × type_code × lock_yn 의 모든 조합을 아이템 단위 버튼 매트릭스로 선언형으로 분기 — 배송 요청 / 거래 / 분해 등의 활성 여부와 버튼 문구가 데이터만 보면 결정되도록",
+            "state_code × type_code × lock_yn 조합에 따라 배송 / 거래 / 분해 등 액션 버튼의 활성 여부 · 문구 · 이동 경로를 한 화면에서 일관되게 분기 처리",
             "6종 모달을 공통 goEvent 콜백 패턴으로 묶어, 거래 취소 · 포인트 환급처럼 되돌릴 수 없는 액션도 '확인 → 실행 → 피드백 → 리스트 리셋' 순서로 동일하게 흐르게 함",
             "쿠칩 발송 전 서버 제한 API 를 먼저 호출하고, 판매중단 기프티콘은 1,000원 단위 올림 포인트로 환급하는 등 도메인 규칙을 UI 레이어에서 안전하게 처리",
             "useCallback(renderItem) · React.memo(LockBtn) · FastImage · 페이지 끝에서 fetch 중단 가드 · pull-to-refresh 를 조합해 수백 개 아이템에서도 스크롤 성능 유지",
@@ -280,14 +274,14 @@ export const HIGHLIGHTS: Highlight[] = [
           heading: "결과",
           body: [
             "한 화면에서 보물의 전체 생애주기(보관 → 배송 → 거래 → 분해 → 환급) 를 모두 관리할 수 있게 됨",
-            "버튼과 모달 매트릭스를 코드 한 곳에 모아둔 덕분에, 새 상태코드가 추가돼도 고쳐야 할 지점이 최소화",
+            "상태별 버튼·모달 분기 로직을 한 화면 안에 모아둔 덕분에 새 상태코드가 추가돼도 고쳐야 할 지점이 최소화",
             "모달 오케스트레이션과 리스트 파라미터 수렴 패턴을 거래소 · 구매 내역 같은 다른 복합 리스트 화면에 그대로 재사용",
-            "잠금 토글이나 포인트 환급처럼 되돌릴 수 없는 액션에서 '확인 모달 누락' 같은 사용자 실수 경로를 원천 차단",
+            "거래 취소나 포인트 환급처럼 되돌릴 수 없는 액션에서 '확인 모달 누락' 같은 사용자 실수 경로를 원천 차단",
           ],
         },
         {
           heading: "회고",
-          body: "상태가 많은 UI 는 화면을 그리기 전에 '데이터 흐름과 버튼 매트릭스' 를 먼저 설계해두는 편이 디버깅 비용을 크게 줄여준다는 걸 배웠습니다. 특히 '이 버튼이 어떤 조건에서 활성화되는가' 를 하나의 표로 정리하니 QA 사이클도 눈에 띄게 짧아졌고, 이후 거래소나 구매 내역처럼 상태가 많은 화면을 만들 때 그대로 가져다 쓸 수 있는 템플릿이 되어주었습니다.",
+          body: "상태가 많은 UI 는 화면을 그리기 전에 '데이터 흐름과 버튼 활성화 조건' 을 먼저 정리해두는 편이 디버깅 비용을 크게 줄여준다는 걸 배웠습니다. 특히 '이 버튼이 어떤 조건에서 활성화되는가' 를 한곳에 모으니 QA 사이클도 눈에 띄게 짧아졌고, 이후 거래소나 구매 내역처럼 상태가 많은 화면을 만들 때 그대로 가져다 쓸 수 있는 템플릿이 되어주었습니다.",
         },
       ],
     },
@@ -295,7 +289,7 @@ export const HIGHLIGHTS: Highlight[] = [
       title: "Treasure Box Screen — Complex State List Design",
       meta: "2024 · Bomulsen (React Native · FlatList)",
       summary:
-        "On a single screen where tab, search, filter, sort, and a lock toggle all operate at once, I unified the button matrix across 11 state codes × 2 type codes × lock-flag combinations — and corralled six different modals into a single pattern.",
+        "On a single screen where tab, search, filter, sort, and a lock toggle all operate at once, I unified the per-button enable / label / navigation rules across 11 state codes × 2 type codes × lock-flag combinations — and corralled six different modals into a single pattern.",
       sections: [
         {
           heading: "Context",
@@ -316,7 +310,7 @@ export const HIGHLIGHTS: Highlight[] = [
           heading: "Approach",
           body: [
             "Collapsed tab × search × filter × sort × lock into a single fetch-query parameter, funnelling every state reset through one listResetAction — so 'what conditions the list is currently rendered with' can be read in one place",
-            "Expressed the state_code × type_code × lock_yn combinations as a declarative per-item button matrix — Ship/Detail/Send, Trade/Cancel, Dismantle availability and label are all decided from data alone",
+            "Branched the Ship / Trade / Dismantle action buttons by state_code × type_code × lock_yn — enabled state, label, and navigation target are all decided from item data on the same screen",
             "Unified all six modals behind a shared goEvent callback pattern — even irreversible actions like trade-cancel and point refund follow the same 'confirm → execute → feedback → list reset' flow",
             "Called the server limit endpoint (couchipSendPriceLimitCheck) before sending vouchers and rounded discontinued-product point refunds up to the nearest 1,000-won — keeping domain rules safe inside the UI layer",
             "Combined useCallback(renderItem) · React.memo(LockBtn) · FastImage · an end-of-list stop-fetching guard · pull-to-refresh to keep scrolling smooth on large item sets",
@@ -327,14 +321,14 @@ export const HIGHLIGHTS: Highlight[] = [
           heading: "Result",
           body: [
             "One screen covers the full treasure lifecycle — store → ship → trade → dismantle → refund",
-            "Centralizing the button · modal matrix minimised the number of change sites when new state codes were added",
+            "Keeping the per-state button and modal branching in one place minimised the number of change sites when new state codes were added",
             "The modal-orchestration and list-parameter-funnelling patterns were reused on other complex list screens (marketplace, purchase history)",
-            "Removed 'missing confirm modal' classes of user-error paths for irreversible actions like lock toggles and point refunds",
+            "Removed 'missing confirm modal' classes of user-error paths for irreversible actions like trade-cancel and point refund",
           ],
         },
         {
           heading: "Takeaway",
-          body: "For state-heavy UIs, designing the data flow and the button matrix first — before drawing the UI — dramatically cut debugging overhead. Reducing 'when is this button active?' to a single matrix shortened QA cycles, and the pattern became a reusable template for subsequent state-rich screens.",
+          body: "For state-heavy UIs, mapping out the data flow and the button enable / label rules first — before drawing the UI — dramatically cut debugging overhead. Pulling 'when is this button active?' into one source shortened QA cycles, and the pattern became a reusable template for subsequent state-rich screens.",
         },
       ],
     },
@@ -348,7 +342,7 @@ export const HIGHLIGHTS: Highlight[] = [
       title: "디자인-엔지니어링 크로스 스킬",
       meta: "2012 – 현재 · 시각디자인 전공 → 편집 디자이너 6년 → 프론트엔드 리드",
       summary:
-        "시각디자인 전공 후 편집 디자이너로 약 6년간 현장 경험을 쌓은 뒤, 웹디자인기능사 · SQL 개발자 · 정보처리기사 · 컴퓨터공학 학사까지 의도적으로 엔지니어링 전환 경로를 밟았습니다. 지금은 디자인 시스템 · Figma 프로토타입 · 1인 UI/UX 담당까지 수행하는 프론트엔드 개발자로 일하고 있어요.",
+        "시각디자인 전공 후 편집 디자이너로 약 6년간 현장 경험을 쌓은 뒤, 웹디자인기능사 · SQL 개발자 · 정보처리기사 · 컴퓨터공학 학사까지 의도적으로 엔지니어링 전환 경로를 밟았습니다. 지금은 시안 리뷰 · 디자인 시스템 · 관리자 페이지 1인 UI/UX 담당까지 수행하는 프론트엔드 개발자로 일하고 있어요.",
       sections: [
         {
           heading: "배경",
@@ -357,11 +351,10 @@ export const HIGHLIGHTS: Highlight[] = [
         {
           heading: "접근",
           body: [
-            "디자이너·기획자 미팅에서 '구현 가능성' 과 'UX 의도' 를 동시에 번역 — 시안 리뷰 단계에서 인터랙션 · 상태 변화 · 엣지 케이스까지 같이 정의",
-            "디자인 시스템 · 토큰 · 컴포넌트 분리 기준을 함께 설계 — 구현 시점이 아니라 설계 시점에 Atomic Design 경계를 미리 그음",
-            "GOPANG(인도네시아향 React 웹앱) 을 디자인 · 퍼블리싱 · 구현까지 1인으로 엔드투엔드 구축 (관리자 페이지 포함)",
-            "Figma 프로토타입과 상호작용 스펙을 직접 작성해 개발자 ↔ 디자이너 간 핑퐁 횟수를 줄임",
-            "타이포그래피 · 여백 · 컬러 팔레트 기준을 Tailwind 토큰 · CSS 변수처럼 코드 레벨로 바로 옮겨 적용",
+            "이벤트·신기능 리뷰 회의에 개발팀 프론트 대표로 참석해 구현 가능 여부와 일정 조율을 맡으며, 시안 단계에서 인터랙션 · 상태 변화 · 엣지 케이스까지 같이 정의",
+            "디자인 시스템과 컴포넌트 분리 기준에 디자인 단계부터 의견을 보태, 시안이 곧바로 구현 단위(작은 → 큰 컴포넌트) 로 떨어지도록 정리",
+            "GOPANG (인도네시아향 React 웹앱) — 사용자·관리자 화면 모두 1인 구현, 관리자 페이지는 UI/UX 디자인까지 자체 담당",
+            "타이포그래피 · 여백 · 컬러 팔레트 기준을 Tailwind 클래스 · CSS 변수로 코드 레벨에서 바로 적용",
             "[공식 자격 · 학위]  정보처리기사(2024.12) · SQL 개발자 SQLD(2023.10) · 웹디자인기능사(2020.12) · 컴퓨터공학 학사(학점은행제, 2023.08 – 2024.10, 4.13 / 4.5)",
           ],
         },
@@ -370,7 +363,7 @@ export const HIGHLIGHTS: Highlight[] = [
           body: [
             "디자인 리뷰와 개발 리뷰가 분리되지 않고, 한 자리에서 함께 이뤄지는 협업 루프가 정착됨",
             "관리자 페이지 같은 '디자이너 리소스가 부족한 영역' 을 내부에서 직접 소화 — 전체 일정 단축",
-            "기획 단계에서 '구현 가능한 디자인' 을 빠르게 제안할 수 있어 시안 폐기율이 줄어듦",
+            "기획·디자인 회의에서 '구현 가능한 안' 을 같이 제안할 수 있어, 뒤늦게 시안을 갈아엎는 경우가 줄어드는 흐름",
             "시각 디자인 감각 + CS 기초 자격을 함께 갖춰, 디자인 쪽이든 엔지니어링 쪽이든 어느 조직에 배치돼도 컨텍스트 스위치 비용이 낮음",
           ],
         },
@@ -384,7 +377,7 @@ export const HIGHLIGHTS: Highlight[] = [
       title: "Design–Engineering Cross-Skill",
       meta: "2012 – present · Design major → 6 years as editorial designer → frontend lead",
       summary:
-        "After studying Visual Communication Design, I worked as an editorial designer for ~6 years before taking an intentional path into engineering — Craftsman Web Design, SQL Developer, Engineer Information Processing, and a Bachelor in Computer Science. Today I work as a frontend engineer who also owns design systems, Figma prototypes, and solo UI/UX ownership for admin surfaces.",
+        "After studying Visual Communication Design, I worked as an editorial designer for ~6 years before taking an intentional path into engineering — Craftsman Web Design, SQL Developer, Engineer Information Processing, and a Bachelor in Computer Science. Today I work as a frontend engineer who also co-owns design systems and runs solo UI/UX ownership for admin surfaces.",
       sections: [
         {
           heading: "Context",
@@ -393,11 +386,10 @@ export const HIGHLIGHTS: Highlight[] = [
         {
           heading: "Approach",
           body: [
-            "In design reviews I translate between 'what's buildable' and 'what the UX intends' at the same time — interactions, state transitions, and edge cases get defined alongside the mock",
-            "I co-define design tokens, systems, and component boundaries at the design phase — Atomic Design boundaries get drawn before code, not during",
-            "GOPANG — solo end-to-end build of the Indonesian React web app (design · publishing · implementation, including the admin dashboard)",
-            "I build Figma prototypes and interaction specs myself, cutting the dev/design ping-pong loop",
-            "Typography, spacing, and palette judgments translate directly into code-level tokens (Tailwind, CSS variables)",
+            "Attend event / new-feature review meetings as the frontend team's representative — own feasibility judgment and schedule alignment, and pull interactions, state transitions, and edge cases into the design conversation early",
+            "Contribute to design systems and component boundaries from the design phase — so mocks land cleanly into implementation-ready units (smaller → larger components)",
+            "GOPANG (Indonesian React web app) — built both user-facing and admin screens solo, and additionally owned the UI/UX design for the admin dashboard",
+            "Typography, spacing, and palette judgments translate directly into Tailwind classes and CSS variables at the code level",
             "[Formal credentials]  Engineer Information Processing (Dec 2024) · SQLD (Oct 2023) · Craftsman Web Design (Dec 2020) · B.Eng. in Computer Science (Aug 2023 – Oct 2024, ACBS, GPA 4.13 / 4.5)",
           ],
         },
@@ -406,7 +398,7 @@ export const HIGHLIGHTS: Highlight[] = [
           body: [
             "Design review and engineering review happen in the same conversation rather than as separate passes",
             "'Design-resource-limited' surfaces like admin dashboards are absorbed in-house, shortening total timelines",
-            "Faster feasibility feedback at the idea stage — fewer mocks scrapped",
+            "Earlier feasibility feedback at the idea stage helped avoid late-stage redesigns",
             "I fit either into a design-leaning team or an engineering-leaning team with low context-switch cost",
           ],
         },
@@ -430,7 +422,7 @@ export const HIGHLIGHTS: Highlight[] = [
       sections: [
         {
           heading: "배경",
-          body: "보물선은 React Native 기반 모바일 앱이라, 매월 바뀌는 마케팅 이벤트를 앱 안에 포함시키면 매번 앱 스토어 검수 사이클(평균 1~2일 + 거절 가능성)을 거쳐야 했습니다. 운영팀의 빠른 출시 일정과 디자인 다양성을 동시에 만족시키기 위해, 이벤트 페이지를 백엔드 저장소(EJS 템플릿)로 분리하고 앱은 WebView 로만 띄우는 구조를 택했습니다. 단순 정적 페이지가 아니라 다이스 보드, RPS 토너먼트, 슬롯 머신 등 사용자 참여형 인터랙티브 게임이 매월 다른 디자인으로 들어가는 구조였습니다.",
+          body: "보물선은 React Native 기반 모바일 앱이라, 매월 바뀌는 마케팅 이벤트를 앱 안에 포함시키면 매번 앱 스토어 검수 사이클(평균 1~2일 + 거절 가능성)을 거쳐야 했습니다. 이를 우회하기 위해 사내에는 이벤트 페이지를 백엔드 저장소(EJS 템플릿)로 두고 앱이 WebView 로 띄우는 구조가 이미 갖춰져 있었고, 저는 그 구조 위에서 매월 새 이벤트 페이지를 직접 작성했습니다. 단순 정적 페이지가 아니라 다이스 보드, RPS 토너먼트, 슬롯 머신 등 사용자 참여형 인터랙티브 게임이 매월 다른 디자인으로 들어갔습니다.",
         },
         {
           heading: "문제 정의",
@@ -458,14 +450,14 @@ export const HIGHLIGHTS: Highlight[] = [
           heading: "결과",
           body: [
             "매월 이벤트 페이지를 앱 스토어 검수 없이 백엔드 배포만으로 즉시 출시할 수 있게 됨",
-            "다이스 보드 게임 · RPS 토너먼트(Gold/Silver 두 모드, 주간 랭킹 포함) · 슬롯 머신 등 인터랙티브 게임 4종 이상을 누적 운영",
+            "다이스 보드 게임 · RPS 토너먼트(Gold/Silver 두 모드, 주간 랭킹 포함) · 슬롯 머신 등 인터랙티브 게임 10종 이상을 누적 운영",
             "외부 게임 라이브러리 의존성이 0 이라 WebView 초기 로딩이 빠르고 번들 크기도 작음",
             "공통 패턴이 표준화되어 있어 디자이너가 시안과 자산만 전달해도 새 게임 페이지를 빠르게 만들 수 있음",
           ],
         },
         {
           heading: "회고",
-          body: "'앱 스토어 검수 사이클 vs 운영 속도' 라는 모바일 앱의 구조적 제약을 인지하고, 백엔드 분리 + WebView + 양방향 메시지라는 아키텍처로 우회해본 경험이었습니다. 단순 정적 페이지가 아닌 인터랙티브 게임을 라이브러리 없이 직접 구현한 덕분에 디자인 자유도와 성능을 동시에 잡을 수 있었고, 모바일과 웹의 경계에서 협업 구조를 직접 설계해본 경험은 이후 어떤 프레임워크를 쓰더라도 그대로 응용할 수 있는 자산이 되었습니다.",
+          body: "'앱 스토어 검수 사이클 vs 운영 속도' 라는 모바일 앱의 구조적 제약을, 사내에 이미 마련된 백엔드 분리 + WebView + 양방향 메시지 구조 위에서 풀어본 경험이었습니다. 단순 정적 페이지가 아닌 인터랙티브 게임을 라이브러리 없이 직접 구현한 덕분에 디자인 자유도와 성능을 동시에 잡을 수 있었고, 모바일과 웹 경계의 협업 흐름 위에서 일해본 경험은 이후 어떤 프레임워크를 쓰더라도 그대로 응용할 수 있는 자산이 되었습니다.",
         },
       ],
     },
@@ -477,7 +469,7 @@ export const HIGHLIGHTS: Highlight[] = [
       sections: [
         {
           heading: "Context",
-          body: "Bomulsen is an RN-based mobile app, so every monthly marketing event embedded in the app would trigger an app-store review cycle (~1–2 days + possible rejection). To satisfy ops's fast release cadence and design variety, event pages were separated into the backend repo as EJS templates and loaded in the app via WebView. These weren't simple static pages — every month brought a different interactive game (dice board, RPS tournament, slot machine, etc.).",
+          body: "Bomulsen is an RN-based mobile app, so every monthly marketing event embedded in the app would trigger an app-store review cycle (~1–2 days + possible rejection). To work around that, the in-house setup already kept event pages in the backend repo as EJS templates loaded via in-app WebView — and I wrote each new monthly event page on top of that setup. These weren't simple static pages: every month brought a different interactive game (dice board, RPS tournament, slot machine, etc.).",
         },
         {
           heading: "Problem",
@@ -505,14 +497,14 @@ export const HIGHLIGHTS: Highlight[] = [
           heading: "Result",
           body: [
             "Each monthly event page ships through a backend deploy alone, with no app-store review",
-            "Operated 4+ interactive games — dice board, RPS tournament (Gold / Silver modes with weekly ranking), slot machine, and more",
+            "Operated 10+ interactive games — dice board, RPS tournament (Gold / Silver modes with weekly ranking), slot machine, and more",
             "Zero external game-library dependency → fast WebView initial load and small bundle",
             "Standardized patterns let new game pages ship quickly from designer assets alone",
           ],
         },
         {
           heading: "Takeaway",
-          body: "Recognizing 'app-store review cycle vs. ops velocity' as a structural mobile constraint, I worked around it with backend separation + WebView + bidirectional messaging. Building interactive games from scratch (rather than pulling in a game library) preserved both design freedom and performance, and designing the mobile/web collaboration boundary myself became a transferable asset that holds up under any framework.",
+          body: "Working within the in-house architecture (backend EJS templates + WebView + bidirectional messaging) that already addresses the 'app-store review cycle vs. ops velocity' tension, I built interactive games from scratch — rather than pulling in a game library — preserving both design freedom and performance. The experience of operating across the mobile/web collaboration boundary became a transferable asset that holds up under any framework.",
         },
       ],
     },

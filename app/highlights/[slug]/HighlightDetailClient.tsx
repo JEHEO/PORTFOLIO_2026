@@ -1,13 +1,8 @@
-/**
- * Highlight 상세 페이지의 클라이언트 렌더러.
- *
- * - 서버 컴포넌트 `page.tsx` 에서 `slug` 를 prop 으로 받아 렌더합니다.
- * - 이 파일만 "use client" 라서 언어/테마 토글 같은 브라우저 상태를 사용할 수 있습니다.
- * - 콘텐츠는 `lib/highlights.ts` 의 HIGHLIGHTS 에서 slug 로 조회합니다.
- * - 섹션 헤딩(배경 · 문제 정의 · 접근 · 결과 · 회고) 앞에 주제별 아이콘이 붙습니다.
- * - "돌아가기" 버튼은 브라우저 히스토리 back 을 써서 홈 스크롤 위치를 복원합니다
- *   (히스토리가 없는 경우에만 `/` 로 이동).
- */
+// 하이라이트 상세 페이지의 클라이언트 렌더러.
+// 서버 컴포넌트 page.tsx 에서 slug 만 받아오고, 실제 콘텐츠는 여기서 lib/highlights.ts
+// 의 HIGHLIGHTS 에서 찾아 그린다. 언어/테마 토글이 필요해 use client.
+// "돌아가기" 는 항상 홈으로 가도록 router.push("/") — 홈에서 sessionStorage 로
+// 스크롤 위치를 복원해줘.
 
 "use client";
 
@@ -35,9 +30,8 @@ import { T } from "@/lib/i18n/translations";
 import { findHighlight, type HighlightSection } from "@/lib/highlights";
 import type { Lang } from "@/lib/stores/uiStore";
 
-// ─── 섹션 헤딩 → 아이콘 매핑 ─────────────────────────────────────────────────
-//
-// "배경 · 사람 레이어" 같은 변형도 prefix 매칭으로 같은 아이콘 적용.
+// 섹션 제목 앞에 붙는 아이콘 매핑.
+// "배경 · 사람 레이어" 처럼 뒤에 부연이 붙어도 prefix 로 매칭.
 function getSectionIcon(heading: string): React.ReactNode {
   const h = heading.trim();
   if (h.startsWith("배경") || h.startsWith("Context")) {
@@ -58,7 +52,7 @@ function getSectionIcon(heading: string): React.ReactNode {
   return null;
 }
 
-// ─── i18n copy (디테일 페이지 전용 짧은 텍스트) ─────────────────────────────
+// 이 페이지에서만 쓰는 짧은 카피들.
 
 const COPY: Record<
   Lang,
@@ -83,7 +77,7 @@ const COPY: Record<
   },
 };
 
-// ─── 섹션 렌더러 ──────────────────────────────────────────────────────────────
+// 본문 한 섹션을 그리는 작은 컴포넌트.
 
 function Section({ section }: { section: HighlightSection }) {
   const isList = Array.isArray(section.body);
@@ -162,8 +156,6 @@ function TopBar({
   );
 }
 
-// ─── Client Renderer ─────────────────────────────────────────────────────────
-
 export function HighlightDetailClient({ slug }: { slug: string }) {
   const highlight = findHighlight(slug);
   const router = useRouter();
@@ -174,18 +166,12 @@ export function HighlightDetailClient({ slug }: { slug: string }) {
   const onToggleTheme = () => doToggleTheme(isDark);
   const onToggleLang = () => doToggleLang(lang);
 
-  /**
-   * 돌아가기 — 항상 홈(`/`) 으로 이동.
-   * (히스토리 back 은 상세 간 네비게이션을 고려해 쓰지 않음)
-   */
+  // 돌아가기는 무조건 홈으로. 상세 사이를 돌아다닌 이력이 있어도 항상 / 로 가도록.
   const onBack = React.useCallback(() => {
     router.push("/");
   }, [router]);
 
-  /**
-   * 다음 하이라이트 계산 — 홈 카드 순서(`T[lang].highlights`) 기준.
-   * 현재가 마지막이면 첫 번째로 순환해서 "cycling" 가능.
-   */
+  // 다음 하이라이트는 홈에 노출된 카드 순서 그대로. 마지막이면 첫 번째로 순환.
   const homeOrder = T[lang].highlights;
   const currentIdx = homeOrder.findIndex((h) => h.slug === slug);
   const nextHighlight =
@@ -198,7 +184,7 @@ export function HighlightDetailClient({ slug }: { slug: string }) {
     router.push(`/highlights/${nextHighlight.slug}`);
   }, [router, nextHighlight]);
 
-  // 존재하지 않는 slug — 간단한 404 UI
+  // 잘못된 slug 면 간단한 404 화면
   if (!highlight) {
     const c = COPY[lang];
     return (
@@ -235,7 +221,7 @@ export function HighlightDetailClient({ slug }: { slug: string }) {
       />
 
       <main className="mx-auto max-w-3xl px-4 pt-28 pb-20">
-        {/* ── Hero ── */}
+        {/* 히어로 영역 */}
         <header className="mb-12 border-b border-zinc-200 pb-8 dark:border-zinc-800">
           <div className="mb-3 flex flex-wrap gap-2">
             {highlight.tags.map((tag) => (
@@ -258,19 +244,20 @@ export function HighlightDetailClient({ slug }: { slug: string }) {
           </p>
         </header>
 
-        {/* ── Sections ── */}
+        {/* 본문 섹션들 */}
         <div className="space-y-10">
           {content.sections.map((section) => (
             <Section key={section.heading} section={section} />
           ))}
         </div>
 
-        {/* ── Footer: 좌측 돌아가기 · 우측 다음 하이라이트 ── */}
-        <div className="mt-16 flex flex-wrap items-center justify-between gap-6 border-t border-zinc-200 pt-8 dark:border-zinc-800">
+        {/* 좌측 돌아가기 · 우측 다음 하이라이트. 제목이 길어도 우측 영역 안에서만
+            말줄임이 일어나 돌아가기 버튼을 침범하지 않게 했음. */}
+        <div className="mt-16 flex items-center justify-between gap-4 border-t border-zinc-200 pt-8 dark:border-zinc-800">
           <button
             type="button"
             onClick={onBack}
-            className="inline-flex cursor-pointer items-center gap-1.5 text-sm font-medium text-zinc-600 transition-colors hover:text-accent-500 dark:text-zinc-400"
+            className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 text-sm font-medium text-zinc-600 transition-colors hover:text-accent-500 dark:text-zinc-400"
           >
             <ArrowLeftIcon />
             {COPY[lang].back}
@@ -280,13 +267,15 @@ export function HighlightDetailClient({ slug }: { slug: string }) {
             <button
               type="button"
               onClick={onNext}
-              className="group inline-flex max-w-[60%] cursor-pointer items-center gap-3 text-right transition-colors"
+              // min-w-0 안 주면 flex 자식이 콘텐츠 너비대로 부풀어서 truncate 가 안 먹음
+              className="group flex min-w-0 cursor-pointer items-center gap-3 text-right transition-colors"
             >
               <span className="flex min-w-0 flex-col items-end">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
                   {COPY[lang].next}
                 </span>
-                <span className="truncate text-sm font-medium text-zinc-600 transition-colors group-hover:text-accent-500 dark:text-zinc-400">
+                {/* 한글 기준 8자 정도까지만 보이고 나머지는 말줄임 */}
+                <span className="block max-w-[7rem] truncate text-sm font-medium text-zinc-600 transition-colors group-hover:text-accent-500 dark:text-zinc-400">
                   {nextHighlight.title}
                 </span>
               </span>
